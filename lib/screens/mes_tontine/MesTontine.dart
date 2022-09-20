@@ -35,41 +35,7 @@ class _MesTontineState extends State<MesTontine> {
       fontSize: 16,
       fontWeight: FontWeight.w500);
 
-  List<Map<String, dynamic>> dataTontins = [
-    {
-      "id": 1,
-      "nom": "Ma tontine 1",
-      "montant": 5000,
-      "periodicite": "Hebdomadaire",
-      "createdBy": "0779136355",
-      "members": [
-        {"id": 1, "username": "0779136355", "nom": "KAMAGATE", "prenom": "Aziz"}
-      ],
-      "history": []
-    },
-    {
-      "id": 2,
-      "nom": "Ma tontine 2",
-      "montant": 5000,
-      "periodicite": "Hebdomadaire",
-      "createdBy": "0779136355",
-      "members": [
-        {"id": 1, "username": "0779136355", "nom": "KAMAGATE", "prenom": "Aziz"}
-      ],
-      "history": []
-    },
-    {
-      "id": 3,
-      "nom": "Ma tontine 3",
-      "montant": 5000,
-      "periodicite": "Hebdomadaire",
-      "createdBy": "0779136355",
-      "members": [
-        {"id": 1, "username": "0779136355", "nom": "KAMAGATE", "prenom": "Aziz"}
-      ],
-      "history": []
-    }
-  ];
+  List<Map<String, dynamic>> dataTontins = [];
 
   bool loading = true;
 
@@ -118,28 +84,30 @@ class _MesTontineState extends State<MesTontine> {
     //     loading = false;
     //   }
     // });
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Mes Tontines'),
-        centerTitle: true,
-        actions: [IconButton(onPressed: (() {}), icon: Icon(Icons.search))],
-      ),
-      body: FutureBuilder(
-          future: loadingMyTontine(),
-          builder: ((context, snapshot) {
-            if (snapshot.data == null) {
-              return Container(
-                color: ColorTheme.primaryColorBlue,
-                child: Center(
-                  child: LoadingAnimationWidget.staggeredDotsWave(
-                    color: ColorTheme.primaryColorYellow,
-                    size: 200,
-                  ),
+    return FutureBuilder(
+        future: loadingMyTontine(),
+        builder: ((context, snapshot) {
+          if (snapshot.data == null) {
+            return Container(
+              color: ColorTheme.primaryColorBlue,
+              child: Center(
+                child: LoadingAnimationWidget.staggeredDotsWave(
+                  color: ColorTheme.primaryColorYellow,
+                  size: 200,
                 ),
-              );
-            }
+              ),
+            );
+          }
 
-            return SingleChildScrollView(
+          return Scaffold(
+            appBar: AppBar(
+              title: const Text('Mes Tontines'),
+              centerTitle: true,
+              // actions: [
+              //   IconButton(onPressed: (() {}), icon: Icon(Icons.search))
+              // ],
+            ),
+            body: SingleChildScrollView(
               child: Container(
                 padding: EdgeInsets.all(10),
                 height: size.height * 0.9,
@@ -215,8 +183,8 @@ class _MesTontineState extends State<MesTontine> {
                   ),
                 ),
               ),
-            );
-          })),
-    );
+            ),
+          );
+        }));
   }
 }

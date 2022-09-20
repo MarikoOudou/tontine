@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tontino/models/Tontine.dart';
+import 'package:tontino/screens/mes_tontine/MesTontine.dart';
 import 'package:tontino/screens/notification/notifications.dart';
 import 'package:tontino/services/Colors.dart';
 
@@ -52,7 +53,7 @@ class _MesContactsState extends State<MesContacts> {
         appBar: AppBar(
           title: const Text('Les Membres'),
           centerTitle: true,
-          actions: [IconButton(onPressed: (() {}), icon: Icon(Icons.search))],
+          // actions: [IconButton(onPressed: (() {}), icon: Icon(Icons.search))],
         ),
         body: SingleChildScrollView(
           child: Container(
@@ -116,7 +117,7 @@ class _MesContactsState extends State<MesContacts> {
                                     ),
                                     TextButton(
                                       onPressed: () {
-                                        Navigator.pop(context, 'Cancel');
+                                        // Navigator.pop(context, 'Cancel');
 
                                         showModalBottomSheet(
                                             backgroundColor:
@@ -143,25 +144,35 @@ class _MesContactsState extends State<MesContacts> {
                                                     dynamic cotise =
                                                         snapshot.data;
 
-                                                    if (cotise == null ||
-                                                        (cotise["reponse"] ==
-                                                                null ||
-                                                            cotise["reponse"] ==
-                                                                false)) {
+                                                    if (cotise == null) {
                                                       return ContenteValidation(
+                                                        textBoutton: "RETOUR",
+                                                        page: MesContacts(
+                                                            tontine:
+                                                                widget.tontine),
                                                         size: size,
                                                         errorResp: 1,
-                                                        textValidate:
-                                                            "LE DEPOT A ETE EFFECTUER AVEC SUCCES",
+                                                        textValidate: "",
                                                         loading: true,
+                                                      );
+                                                    } else if (cotise['code'] >=
+                                                        400) {
+                                                      ContenteValidation(
+                                                        textBoutton: "RETOUR",
+                                                        page: MesTontine(),
+                                                        size: size,
+                                                        errorResp: 1,
+                                                        textValidate: "ERREUR",
+                                                        loading: false,
                                                       );
                                                     }
 
                                                     return ContenteValidation(
+                                                      textBoutton: "RETOUR",
+                                                      page: MesTontine(),
                                                       size: size,
                                                       errorResp: 0,
-                                                      textValidate:
-                                                          "LE DEPOT A ETE EFFECTUER AVEC SUCCES",
+                                                      textValidate: "",
                                                       loading: false,
                                                     );
                                                   }));

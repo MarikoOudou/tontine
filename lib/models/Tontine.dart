@@ -85,8 +85,8 @@ class Tontine {
     }
   }
 
-  Future<Map<String, dynamic>> activeTontine() async {
-    pathGetTontine = "tontine/activate/" + id.toString();
+  Future<Map<String, dynamic>> activeTontine(String id_tontine) async {
+    pathGetTontine = "tontine/activate/" + id_tontine;
     // return User.fromJsonMap(await serviceHttp.getReqHttp(pathGetUser));
 
     http.Response response = await serviceHttp.getReqHttp(pathGetTontine);
@@ -101,11 +101,11 @@ class Tontine {
       dynamic body = jsonDecode(response.body);
 
       print(body);
-      return {"data": body, "reponse": true};
+      return {"data": body, "reponse": true, "code": code};
     }
   }
 
-  Future<Map<String, dynamic>> create(Map<String, dynamic> data) async {
+  create(Map<String, dynamic> data) async {
     pathGetTontine = "tontine/create";
 
     Map<dynamic, dynamic?> tontine = {
@@ -114,22 +114,37 @@ class Tontine {
       "type": data["type"],
       "montant": data["montant"]
     };
-    // Map<dynamic, dynamic?> response = await serviceHttp.postReqHttp(user, pathGetUser);
 
     http.Response response =
         await serviceHttp.postReqHttp(tontine, pathGetTontine);
-
     int code = response.statusCode;
-    print("ERREUR DE SERVEUR ${code}");
+    Map<dynamic, dynamic?> body = jsonDecode(response.body);
+
+    print("TONTINE CREER CODE ::::::: ${response.statusCode}");
+    print("TONTINE  BODY ::::::: ${jsonDecode(response.body)}");
 
     if (code != null && code >= 400) {
-      return {"reponse": false, "message": "erreur du serveur"};
+      return {
+        "reponse": true,
+        "message": "ECHEC DE CREATION DE TONTINE",
+        "code": code,
+        "body": body,
+      };
+    } else if (code == null) {
+      return {
+        "reponse": true,
+        "body": body,
+        "message":
+            "ERREUR DE DE CONNEXION, VEUILLEZ VERIFIER VOTRE CONNEXION INTERNET",
+        "code": 100
+      };
     } else {
-      Map<dynamic, dynamic?> body = jsonDecode(response.body);
-
-      print(
-          ' --------------------------------------------------------------------------- ${body["message"]}');
-      return {"data": body, "reponse": true};
+      return {
+        "data": body,
+        "message": "VOTRE TONTINE A ETE CREE",
+        "reponse": true,
+        "code": code
+      };
     }
   }
 
@@ -146,16 +161,33 @@ class Tontine {
         await serviceHttp.postReqHttp(tontine, pathGetTontine);
 
     int code = response.statusCode;
-    print("ERREUR DE SERVEUR ${code}");
+    Map<dynamic, dynamic?> body = jsonDecode(response.body);
+
+    print("COTISATION CREER CODE ::::::: ${response.statusCode}");
+    print("COTISATION  BODY ::::::: ${jsonDecode(response.body)}");
 
     if (code != null && code >= 400) {
-      return {"reponse": false, "message": "erreur du serveur"};
+      return {
+        "reponse": true,
+        "message": "ECHEC",
+        "code": code,
+        "body": body,
+      };
+    } else if (code == null) {
+      return {
+        "reponse": true,
+        "body": body,
+        "message":
+            "ERREUR DE DE CONNEXION, VEUILLEZ VERIFIER VOTRE CONNEXION INTERNET",
+        "code": 100
+      };
     } else {
-      Map<dynamic, dynamic?> body = jsonDecode(response.body);
-
-      print(
-          ' --------------------------------------------------------------------------- ${body["message"]}');
-      return {"data": body, "reponse": true};
+      return {
+        "data": body,
+        "message": "SUCCESS",
+        "reponse": true,
+        "code": code
+      };
     }
   }
 

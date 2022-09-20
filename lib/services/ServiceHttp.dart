@@ -34,7 +34,13 @@ class ServiceHttp {
     return action;
   }
 
-  Future<http.Response> postReqHttp(dynamic body, String path) async {
+  cleanToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final Object action = await prefs.remove('authorization');
+    return action;
+  }
+
+  postReqHttp(dynamic body, String path) async {
     //Pass headers below
     if ((await getToken()) != null) {
       authorization = await getToken();
@@ -57,17 +63,7 @@ class ServiceHttp {
         "Authorization": authorization
       },
       // encoding: encoding
-    ).then((http.Response response) {
-      final int statusCode = response.statusCode;
-      final dynamic json = response.body;
-      print("====code response ${response.statusCode}");
-      print("====response ${jsonDecode(response.body)}");
-
-      /*if (statusCode < 200 || statusCode >= 400 || json == null) {
-        throw Exception(response.body);
-      }*/
-      return response;
-    });
+    );
   }
 
   Future<http.Response> getReqHttp(String path) async {

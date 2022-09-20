@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tontino/models/Tontine.dart';
 import 'package:tontino/screens/ContentVlider.dart';
+import 'package:tontino/screens/mes_tontine/MesTontine.dart';
 import 'package:tontino/services/Colors.dart';
 
 class Depot extends StatefulWidget {
@@ -148,19 +149,34 @@ class _DepotState extends State<Depot> {
                               builder: ((context, snapshot) {
                                 dynamic cotise = snapshot.data;
 
-                                if (cotise == null ||
-                                    (cotise["reponse"] == null ||
-                                        cotise["reponse"] == false)) {
+                                if (cotise == null) {
                                   return ContenteValidation(
+                                    page: Depot(
+                                      tontine: widget.tontine,
+                                    ),
+                                    textBoutton: 'RETOUR',
                                     size: size,
                                     errorResp: 1,
                                     textValidate:
                                         "LE DEPOT A ETE EFFECTUER AVEC SUCCES",
                                     loading: true,
                                   );
+                                } else if (cotise['code'] >= 400) {
+                                  return ContenteValidation(
+                                    page: Depot(
+                                      tontine: widget.tontine,
+                                    ),
+                                    textBoutton: 'RETOUR',
+                                    size: size,
+                                    errorResp: 1,
+                                    textValidate: "ERREUR",
+                                    loading: false,
+                                  );
                                 }
 
                                 return ContenteValidation(
+                                  page: MesTontine(),
+                                  textBoutton: 'RETOUR',
                                   size: size,
                                   errorResp: 0,
                                   textValidate:

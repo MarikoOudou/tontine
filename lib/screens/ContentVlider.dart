@@ -10,6 +10,8 @@ class ContenteValidation extends StatefulWidget {
     required this.size,
     required this.textValidate,
     required this.errorResp,
+    required this.textBoutton,
+    required this.page,
     required this.loading,
   }) : super(key: key);
 
@@ -17,6 +19,8 @@ class ContenteValidation extends StatefulWidget {
 
   final Size size;
   final String textValidate;
+  final String textBoutton;
+  final Widget page;
   final int errorResp; // 0: felicitation, 1: error
   final bool loading;
 
@@ -27,6 +31,10 @@ class ContenteValidation extends StatefulWidget {
 class _ContenteValidationState extends State<ContenteValidation> {
   String textValidate =
       'Votre tontine vient d’être créer avec succès ! Vous pouvez y accéder pour la consulter.';
+
+  Widget pageRetour(Widget page) {
+    return page;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -81,6 +89,11 @@ class _ContenteValidationState extends State<ContenteValidation> {
                     onPressed: (() {
                       Navigator.pop(context);
 
+                      // Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //         builder: ((context) => pageRetour(widget.page))));
+
                       Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(
@@ -90,7 +103,7 @@ class _ContenteValidationState extends State<ContenteValidation> {
                       );
                     }),
                     child: Text(
-                      "Retour au menu",
+                      widget.textBoutton,
                       style: TextStyle(
                           fontFamily: "Montserrat",
                           fontSize: widget.size.width * 0.04,

@@ -49,7 +49,7 @@ class _RetardPayeState extends State<RetardPaye> {
         appBar: AppBar(
           title: const Text('Rétard de paiement'),
           centerTitle: true,
-          actions: [IconButton(onPressed: (() {}), icon: Icon(Icons.search))],
+          // actions: [IconButton(onPressed: (() {}), icon: Icon(Icons.search))],
         ),
         body: SingleChildScrollView(
           child: Container(

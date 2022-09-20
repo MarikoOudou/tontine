@@ -54,27 +54,45 @@ class _SingUpState extends State<SingUp> {
       body: SingleChildScrollView(
         child: loading
             ? SingleChildScrollView(
+                child: Container(
+                height: size.height,
+                color: ColorTheme.primaryColorBlue,
                 child: ContenteValidation(
-                size: size,
-                errorResp: 1,
-                textValidate: "ERREUR DE CREATION DU COMPTE",
-                loading: true,
+                  textBoutton: "ERREUR DE CREATION DE COMPTE",
+                  page: SingUp(),
+                  size: size,
+                  errorResp: 1,
+                  textValidate: "ERREUR DE CREATION DU COMPTE",
+                  loading: true,
+                ),
               ))
             : error
                 ? SingleChildScrollView(
+                    child: Container(
+                    height: size.height,
+                    color: ColorTheme.primaryColorBlue,
                     child: ContenteValidation(
-                    size: size,
-                    errorResp: 1,
-                    textValidate: "ERREUR DE CREATION DU COMPTE",
-                    loading: false,
+                      textBoutton: "RETOUR",
+                      page: SingUp(),
+                      size: size,
+                      errorResp: 1,
+                      textValidate: "ERREUR DE CREATION DU COMPTE",
+                      loading: false,
+                    ),
                   ))
                 : create
                     ? SingleChildScrollView(
+                        child: Container(
+                        height: size.height,
+                        color: ColorTheme.primaryColorBlue,
                         child: ContenteValidation(
-                        size: size,
-                        errorResp: 0,
-                        textValidate: "VOTRE COMPTE A ETE CREER",
-                        loading: false,
+                          textBoutton: "RETOUR",
+                          page: Home(),
+                          size: size,
+                          errorResp: 0,
+                          textValidate: "VOTRE COMPTE A ETE CREER",
+                          loading: false,
+                        ),
                       ))
                     : Container(
                         padding: EdgeInsets.only(
@@ -389,64 +407,6 @@ class _SingUpState extends State<SingUp> {
                                     // you'd often call a server or save the information in a database.
                                     print(user.toJsonMap());
 
-                                    // showModalBottomSheet(
-                                    //     backgroundColor: ColorTheme.primaryColorBlue,
-                                    //     context: context,
-                                    //     isDismissible: false,
-                                    //     enableDrag: false,
-                                    //     shape: const RoundedRectangleBorder(
-                                    //       borderRadius: BorderRadius.vertical(
-                                    //         top: Radius.circular(30.0),
-                                    //       ),
-                                    //     ),
-                                    //     builder: (context) {
-                                    //       print("DataSend      ${user}");
-
-                                    //       return FutureBuilder(
-                                    //           future: user.create(),
-                                    //           builder: ((context, snapshot) {
-                                    //             dynamic resp = snapshot.data;
-
-                                    //             print("resp ....... ${resp}");
-
-                                    //             if (resp == null ||
-                                    //                 (resp["reponse"] == null ||
-                                    //                     resp["reponse"] == false)) {
-                                    //               return ContenteValidation(
-                                    //                 size: size,
-                                    //                 errorResp: 1,
-                                    //                 textValidate:
-                                    //                     "ERREUR DE CREATION DU COMPTE",
-                                    //                 loading: true,
-                                    //               );
-                                    //             }
-
-                                    //             // if (resp["access"] == false) {
-                                    //             //   return ContenteValidation(
-                                    //             //     size: size,
-                                    //             //     errorResp: 1,
-                                    //             //     textValidate: resp["message"],
-                                    //             //     loading: false,
-                                    //             //   );
-                                    //             // }
-
-                                    //             user.login(
-                                    //                 telephone: user.tel,
-                                    //                 motDpass: user.password);
-
-                                    //             return ContenteValidation(
-                                    //               size: size,
-                                    //               errorResp: 0,
-                                    //               textValidate:
-                                    //                   "VOTRE COMPTE A ETE CREER",
-                                    //               loading: false,
-                                    //             );
-                                    //           }));
-                                    //     });
-
-                                    //  print(
-                                    //                   "valeur : ${valueForm.toJsonMap()}");
-
                                     if (_formKey.currentState!.validate()) {
                                       setState(() {
                                         loading = true;
@@ -455,24 +415,16 @@ class _SingUpState extends State<SingUp> {
                                       Map<String, dynamic> resp =
                                           await user.create();
 
-                                      print("loading true");
+                                      // print("loading true");
                                       print("Response ${resp}");
-                                      if (!resp["reponse"]) {
-                                        print("loading false");
 
+                                      if (!resp["reponse"]) {
+                                        // print("loading false");
                                         setState(() {
                                           loading = false;
                                           error = true;
-                                          // param = {
-                                          //   "message": {
-                                          //     "isMessage": true,
-                                          //     "text":
-                                          //         "L'UTILISATEUR N'EXISTE PAS"
-                                          //   }
-                                          // };
                                         });
                                       } else {
-                                        // print("loading false");
                                         await user.login(
                                             telephone: user.tel,
                                             motDpass: user.password);
@@ -480,36 +432,7 @@ class _SingUpState extends State<SingUp> {
                                           loading = false;
                                           create = true;
                                         });
-                                        // Navigator.push(
-                                        //     context,
-                                        //     MaterialPageRoute(
-                                        //         builder: ((context) => Home())));
                                       }
-
-                                      // loading(context);
-                                      // showDialog(
-                                      //   context: context,
-                                      //   useSafeArea: false,
-                                      //   builder: (BuildContext context) => FutureBuilder(
-                                      //     future: user.create(),
-                                      //     builder: ((context, snapshot) {
-                                      //       print(snapshot.data);
-
-                                      //       if (snapshot.data == null) {
-                                      //         return Loading();
-                                      //       } else if (snapshot.data!["reponse"]) {
-                                      //         return Home();
-                                      //       }
-
-                                      //       return SingUp(param: {
-                                      //         "message": {
-                                      //           "isMessage": true,
-                                      //           "text": "L'UTILISATEUR existe deja"
-                                      //         }
-                                      //       });
-                                      //     }),
-                                      //   ),
-                                      // );
                                     }
                                   }
                                 },

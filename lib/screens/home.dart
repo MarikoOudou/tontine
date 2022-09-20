@@ -35,12 +35,6 @@ class _HomeState extends State<Home> {
   String qrcodeEnco = "";
 
   Map<String, dynamic> historiques = {};
-  //  = User().getUser();
-
-// Obtain shared preferences.
-  var prefs;
-  // chargement du profil
-  // chargement de lhistorique
 
   bool loading = true;
 
@@ -48,15 +42,6 @@ class _HomeState extends State<Home> {
   initState() {
     // TODO: implement initState
     super.initState();
-    // user.getUser();
-    /*user = User(
-      id: loadingUser()["id"],
-      nom: loadingUser()["nom"],
-      prenom: loadingUser()["prenom"],
-      tel: loadingUser()["tel"],
-      solde: loadingUser()["solde"],
-    );*/
-    // user.toJsonMap(loadingUser());
   }
 
   loadingUser() async {
@@ -202,8 +187,8 @@ class _HomeState extends State<Home> {
           SingleChildScrollView(
             scrollDirection: Axis.vertical,
             child: Container(
-              height:
-                  (size.height - kToolbarHeight - kTextTabBarHeight - 25) * 0.9,
+              height: (size.height - kToolbarHeight - kTextTabBarHeight - 25) *
+                  0.92,
               child: ListView(
                 children: [
                   Container(
@@ -214,7 +199,7 @@ class _HomeState extends State<Home> {
                                 25) *
                             0.8) *
                         0.4,
-                    padding: EdgeInsets.all(0),
+                    padding: EdgeInsets.all(20),
                     width: size.width,
                     decoration: BoxDecoration(
                       color: ColorTheme.primaryColorBlue,
@@ -276,7 +261,7 @@ class _HomeState extends State<Home> {
                                         kTextTabBarHeight -
                                         25) *
                                     0.9) *
-                                0.25,
+                                0.2,
                             foregroundColor: ColorTheme.primaryColorWhite,
                           ),
                         ),

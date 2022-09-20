@@ -7,6 +7,7 @@ import 'package:tontino/screens/ContentVlider.dart';
 import 'package:tontino/screens/home.dart';
 import 'package:tontino/screens/loading.dart';
 import 'package:tontino/screens/login.dart';
+import 'package:tontino/screens/mes_tontine/MesTontine.dart';
 import 'package:tontino/services/Colors.dart';
 
 class AddTontine extends StatefulWidget {
@@ -158,23 +159,38 @@ class _AddTontineState extends State<AddTontine> {
                                                     print(
                                                         "cotise ....... ${cotise}");
 
-                                                    if (cotise == null ||
-                                                        (cotise["reponse"] ==
-                                                                null ||
-                                                            cotise["reponse"] ==
-                                                                false)) {
+                                                    if (cotise == null) {
                                                       return ContenteValidation(
+                                                        page: AddTontine(
+                                                          infoUseer:
+                                                              widget.infoUseer,
+                                                          idTontine:
+                                                              widget.idTontine,
+                                                        ),
+                                                        textBoutton: 'RETOUR',
                                                         size: size,
                                                         errorResp: 1,
                                                         textValidate:
                                                             "VOUS ETES MEMBRE DE LA TONTINE",
                                                         loading: true,
                                                       );
-                                                    }
-
-                                                    if (cotise["access"] ==
+                                                    } else if (cotise['code'] >=
+                                                        400) {
+                                                      return ContenteValidation(
+                                                        page: MesTontine(),
+                                                        textBoutton: 'RETOUR',
+                                                        size: size,
+                                                        errorResp: 1,
+                                                        textValidate:
+                                                            cotise["message"],
+                                                        loading: false,
+                                                      );
+                                                    } else if (cotise[
+                                                            "access"] ==
                                                         false) {
                                                       return ContenteValidation(
+                                                        page: MesTontine(),
+                                                        textBoutton: 'RETOUR',
                                                         size: size,
                                                         errorResp: 1,
                                                         textValidate:
@@ -184,6 +200,8 @@ class _AddTontineState extends State<AddTontine> {
                                                     }
 
                                                     return ContenteValidation(
+                                                      page: MesTontine(),
+                                                      textBoutton: 'RETOUR',
                                                       size: size,
                                                       errorResp: 0,
                                                       textValidate:

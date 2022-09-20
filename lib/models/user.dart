@@ -30,6 +30,10 @@ class User {
     this.password,
   });
 
+  deconnexion() async {
+    return await serviceHttp.cleanToken();
+  }
+
   Future<Map<String, dynamic>> getUser() async {
     pathGetUser = "user/infos";
     // return User.fromJsonMap(await serviceHttp.getReqHttp(pathGetUser));
@@ -70,7 +74,7 @@ class User {
     }
   }
 
-  Future<Map<String, dynamic>> create() async {
+  create() async {
     pathGetUser = "public/register";
     Map<dynamic, dynamic?> user = {
       "username": username,
@@ -79,7 +83,6 @@ class User {
       "tel": tel,
       "password": password
     };
-    // Map<dynamic, dynamic?> response = await serviceHttp.postReqHttp(user, pathGetUser);
 
     http.Response response = await serviceHttp.postReqHttp(user, pathGetUser);
 
@@ -150,7 +153,7 @@ class User {
         prenom = map["prenom"],
         slug = map["slug"],
         tel = map["tel"],
-        solde = map["solde"]!.toDouble(),
+        solde = map["solde"] == null ? 0.0 : map["solde"].toDouble(),
         password = map["password"];
 
   Map<String, dynamic> toJsonMap() => {

@@ -32,8 +32,6 @@ class _LoginState extends State<Login> {
 
   SharedAppData? sharedAppData;
 
-
-
   List<String> label = [
     "Numéro de téléphone",
     "Mot de passe",
@@ -374,24 +372,18 @@ class _LoginState extends State<Login> {
                   ),
                 ),
               ),
-              param!["message"]!["isMessage"]
-                  ? Container(
-                      width: size.width,
-                      height: 50,
-                      clipBehavior: Clip.hardEdge,
-                      padding: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                          color: ColorTheme.primaryColorYellow,
-                          borderRadius: BorderRadius.circular(30)),
-                      child: Center(
-                          child: Text(
-                        param["message"]["text"],
-                        style: TextStyle(
-                            color: ColorTheme.primaryColorWhite,
-                            fontWeight: FontWeight.bold),
-                      )),
-                    )
-                  : Container(),
+              //           param!["message"]!["isMessage"]
+              //               ?
+              //               Fluttertoast.showToast(
+              //     msg: "This is Center Short Toast",
+              //     toastLength: Toast.LENGTH_SHORT,
+              //     gravity: ToastGravity.CENTER,
+              //     timeInSecForIosWeb: 1,
+              //     backgroundColor: Colors.red,
+              //     textColor: Colors.white,
+              //     fontSize: 16.0
+              // )
+              //               : Container(),
             ],
           ),
         ),
