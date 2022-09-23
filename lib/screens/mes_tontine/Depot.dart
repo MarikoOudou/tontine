@@ -151,9 +151,9 @@ class _DepotState extends State<Depot> {
 
                                 if (cotise == null) {
                                   return ContenteValidation(
-                                    page: Depot(
-                                      tontine: widget.tontine,
-                                    ),
+                                    // page: Depot(
+                                    //   tontine: widget.tontine,
+                                    // ),
                                     textBoutton: 'RETOUR',
                                     size: size,
                                     errorResp: 1,
@@ -163,9 +163,9 @@ class _DepotState extends State<Depot> {
                                   );
                                 } else if (cotise['code'] >= 400) {
                                   return ContenteValidation(
-                                    page: Depot(
-                                      tontine: widget.tontine,
-                                    ),
+                                    // page: Depot(
+                                    //   tontine: widget.tontine,
+                                    // ),
                                     textBoutton: 'RETOUR',
                                     size: size,
                                     errorResp: 1,

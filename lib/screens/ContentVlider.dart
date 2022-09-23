@@ -11,7 +11,7 @@ class ContenteValidation extends StatefulWidget {
     required this.textValidate,
     required this.errorResp,
     required this.textBoutton,
-    required this.page,
+    this.page,
     required this.loading,
   }) : super(key: key);
 
@@ -20,7 +20,7 @@ class ContenteValidation extends StatefulWidget {
   final Size size;
   final String textValidate;
   final String textBoutton;
-  final Widget page;
+  final Widget? page;
   final int errorResp; // 0: felicitation, 1: error
   final bool loading;
 
@@ -66,41 +66,54 @@ class _ContenteValidationState extends State<ContenteValidation> {
                 ),
                 Column(
                   children: [
-                    Text(widget.errorResp == 0 ? "Féicitation" : "",
-                        style: TextStyle(
-                            fontFamily: "Montserrat",
-                            fontSize: widget.size.width * 0.056,
-                            color: ColorTheme.primaryColorWhite,
-                            fontWeight: FontWeight.bold)),
-                    Container(
-                      alignment: Alignment.center,
-                      padding: EdgeInsets.only(top: 10, right: 15, left: 15),
-                      child: Text("${textValidate}",
-                          textAlign: TextAlign.center,
+                    DefaultTextStyle(
+                      style: TextStyle(
+                          fontFamily: "Montserrat",
+                          fontSize: widget.size.width * 0.056,
+                          color: ColorTheme.primaryColorWhite,
+                          fontWeight: FontWeight.bold),
+                      child: Text(
+                          (widget.errorResp == 0 ? "Félicitation" : "ERREUR")
+                              .toUpperCase(),
                           style: TextStyle(
                               fontFamily: "Montserrat",
-                              fontSize: widget.size.width * 0.04,
+                              fontSize: widget.size.width * 0.056,
                               color: ColorTheme.primaryColorWhite,
-                              fontWeight: FontWeight.w400)),
+                              fontWeight: FontWeight.bold)),
+                    ),
+                    Container(
+                      alignment: Alignment.center,
+                      padding: EdgeInsets.only(top: 10, right: 10, left: 10),
+                      child: DefaultTextStyle(
+                        style: TextStyle(
+                            fontFamily: "Montserrat",
+                            fontSize: widget.size.width * 0.04,
+                            color: ColorTheme.primaryColorWhite,
+                            fontWeight: FontWeight.w400),
+                        child: Text(textValidate.toUpperCase(),
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontFamily: "Montserrat",
+                                fontSize: widget.size.width * 0.04,
+                                color: ColorTheme.primaryColorWhite,
+                                fontWeight: FontWeight.w400)),
+                      ),
                     ),
                   ],
                 ),
                 ElevatedButton(
                     onPressed: (() {
-                      Navigator.pop(context);
-
-                      // Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //         builder: ((context) => pageRetour(widget.page))));
-
-                      Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                Home()), // this mymainpage is your page to refresh
-                        (Route<dynamic> route) => false,
-                      );
+                      if (widget.page == null) {
+                        Navigator.pop(context);
+                      } else {
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  Home()), // this mymainpage is your page to refresh
+                          (Route<dynamic> route) => false,
+                        );
+                      }
                     }),
                     child: Text(
                       widget.textBoutton,

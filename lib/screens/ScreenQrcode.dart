@@ -193,7 +193,7 @@ class _ScreenQrcodeState extends State<ScreenQrcode> {
         print("avant ${jsonDecode(jsonDecode(dataScanner))['tel']}");
 
         var tel = jsonDecode(jsonDecode(dataScanner))['tel'];
-        var periodicite = jsonDecode(jsonDecode(dataScanner))['periodicite'];
+        // var periodicite = jsonDecode(jsonDecode(dataScanner))['periodicite'];
 
         if (tel != null && widget.typeScanner == 0) {
           print("apres ${jsonDecode(dataScanner)}");

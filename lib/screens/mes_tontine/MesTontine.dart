@@ -165,7 +165,7 @@ class _MesTontineState extends State<MesTontine> {
                                 child: tontine.compteur == null ||
                                         tontine.compteur == 0
                                     ? Text(
-                                        'Inatif',
+                                        'Inactif',
                                         style: textStyleSub,
                                       )
                                     : Text("Actif",

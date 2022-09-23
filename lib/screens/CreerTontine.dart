@@ -111,9 +111,6 @@ class _CreerTontineState extends State<CreerTontine> {
                 color: ColorTheme.primaryColorBlue,
                 child: ContenteValidation(
                   textBoutton: "RETOUR",
-                  page: CreerTontine(
-                    size: size,
-                  ),
                   size: size,
                   errorResp: 1,
                   textValidate: "ERREUR DE CREATION DE LA TONTINE",
@@ -127,7 +124,6 @@ class _CreerTontineState extends State<CreerTontine> {
                     color: ColorTheme.primaryColorBlue,
                     child: ContenteValidation(
                       textBoutton: "RETOUR",
-                      page: Home(),
                       size: size,
                       errorResp: 0,
                       textValidate: "VOTRE TONTINE A ETE CREER",

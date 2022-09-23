@@ -230,26 +230,32 @@ class Tontine {
         await serviceHttp.postReqHttp(tontine, pathGetTontine);
 
     int code = response.statusCode;
-    print("ERREUR DE SERVEUR ${response.body}");
+    print("REPONSE DE SERVEUR ${response.body}");
 
     Map<dynamic, dynamic?> body = jsonDecode(response.body);
     if (body["code"] == null) {
       return {
         "data": body,
         "reponse": true,
+        "code": code,
         "access": true,
-        "message": "VOUS AVEZ AJOUTER MEMBRE A VOTRE TONTINE"
+        "message": "VOUS AVEZ AJOUTER UN MEMBRE A VOTRE TONTINE"
       };
     }
 
     if (code != null && code >= 400) {
-      return {"reponse": false, "message": "erreur du serveur"};
+      return {"reponse": true, "message": "erreur du serveur", "code": code};
     } else {
       Map<dynamic, dynamic?> body = jsonDecode(response.body);
 
       print(
           ' --------------------------------------------------------------------------- ${body["message"]}');
-      return {"data": body, "reponse": true};
+      return {
+        "data": body,
+        "reponse": true,
+        "message": "VOUS AVEZ AJOUTER UN MEMBRE A VOTRE TONTINE",
+        "code": code
+      };
     }
   }
 }

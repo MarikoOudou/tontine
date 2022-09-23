@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class ServiceHttp {
   String authorization = "Bearer ";
+  String tel = "";
 
   // Obtain shared preferences.
 
@@ -12,9 +13,12 @@ class ServiceHttp {
   // Create storage
   setAuthorization(String token) async {
     authorization = "Bearer " + token;
-
-    print(authorization);
     updateToken(authorization);
+  }
+
+  setTel(String tel) async {
+    this.tel = tel;
+    updateTel(tel);
   }
 
   ServiceHttp() {
@@ -23,9 +27,21 @@ class ServiceHttp {
     // print( "authorization ::::::::::::::::::::::::::::::::::::::: ${authorization}");
   }
 
+  updateTel(String tel) async {
+    print("SET TEL USER ========== ${tel}");
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('tel', tel);
+  }
+
   updateToken(String authorization) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('authorization', authorization);
+  }
+
+  getTel() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final Object? action = prefs.get('tel');
+    return action;
   }
 
   getToken() async {

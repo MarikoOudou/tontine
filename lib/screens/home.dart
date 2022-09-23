@@ -77,27 +77,10 @@ class _HomeState extends State<Home> {
     });
   }
 
-  scanner() {
-    showModalBottomSheet(
-        backgroundColor: ColorTheme.primaryColorWhite,
-        context: context,
-        isDismissible: false,
-        enableDrag: false,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-            top: Radius.circular(30.0),
-          ),
-        ),
-        builder: (context) {
-          return Container();
-        });
-  }
-
   Widget homePage(Size size, User user) {
-    qrcodeEnco = jsonEncode(jsonEncode(user.toJsonMap()));
+    qrcodeEnco = jsonEncode(jsonEncode({"tel": user.tel}));
 
     print(qrcodeEnco);
-
     return Container(
       margin: EdgeInsets.only(top: 5),
       height: size.height - kToolbarHeight - 25,
@@ -142,7 +125,7 @@ class _HomeState extends State<Home> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "${user.nom} ${user.prenom}",
+                            "${user.nom} ${user.prenom}".trim(),
                             style: TextStyle(
                                 color: ColorTheme.primaryColorWhite,
                                 fontFamily: "RobotoMono",
@@ -383,7 +366,7 @@ class _HomeState extends State<Home> {
                                         color: Colors.white,
                                       ),
                                     ),
-                                    Text("Mes Tontine",
+                                    Text("Mes Tontines",
                                         style: TextStyle(
                                             color: Colors.white,
                                             fontFamily: "RobotoMono",
@@ -472,11 +455,12 @@ class _HomeState extends State<Home> {
                                   //   style: optionStyle,
                                   // ),
                                   title: Text(
-                                    historique['type'] == "transfert"
-                                        ? "Cotisation"
-                                        : "Dépôt",
+                                    (historique['type'] == "transfert"
+                                            ? "Tranfert"
+                                            : "Cotisation")
+                                        .toUpperCase(),
                                     style: TextStyle(
-                                        fontSize: 12,
+                                        fontSize: 14,
                                         color: ColorTheme.primaryColorYellow),
                                   ),
                                   trailing: Text(
@@ -501,18 +485,6 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-
-    // loadingUser();
-
-    // setState(() {
-    //   print("user info xxx  ${user.toJsonMap()}");
-    //   if (!tokenExp) {
-    //     loading = true;
-    //   } else {
-    //     loading = false;
-    //     tokenExp = true;
-    //   }
-    // });
 
     List<Widget> _widgetOptions = <Widget>[
       homePage(size, user),

@@ -40,11 +40,11 @@ class _TransfertState extends State<Transfert> {
     // jsonEncode(object)
     // jsonDecode(source)
     print("String ${widget.user.toString()}");
-    print("jsonDecode ${jsonDecode(widget.user.toString())}");
+    print("jsonDecode ${jsonDecode(widget.user)['tel']}");
 
-    user = User.fromJsonMap(jsonDecode(widget.user.toString()));
-    tel = user.tel.toString();
-    print(user);
+    // user = User.fromJsonMap(jsonDecode(widget.user.toString()));
+    tel = jsonDecode(widget.user)['tel'];
+    // print(user);
 
     // tel = widget.user;
     return loading
@@ -54,7 +54,7 @@ class _TransfertState extends State<Transfert> {
             color: ColorTheme.primaryColorBlue,
             child: ContenteValidation(
               textBoutton: "",
-              page: Home(),
+              // page: Home(),
               size: size,
               errorResp: 1,
               textValidate: "",
@@ -68,9 +68,9 @@ class _TransfertState extends State<Transfert> {
                 color: ColorTheme.primaryColorBlue,
                 child: ContenteValidation(
                   textBoutton: "RETOUR",
-                  page: Transfert(
-                    user: widget.user,
-                  ),
+                  // page: Transfert(
+                  //   user: widget.user,
+                  // ),
                   size: size,
                   errorResp: 1,
                   textValidate: "ERREUR",
@@ -84,7 +84,7 @@ class _TransfertState extends State<Transfert> {
                     color: ColorTheme.primaryColorBlue,
                     child: ContenteValidation(
                       textBoutton: "RETOUR",
-                      page: Home(),
+                      // page: Home(),
                       size: size,
                       errorResp: 0,
                       textValidate: "VOTRE TRANSFERT A ETE EFFECTUER",

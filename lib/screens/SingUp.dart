@@ -73,10 +73,11 @@ class _SingUpState extends State<SingUp> {
                     color: ColorTheme.primaryColorBlue,
                     child: ContenteValidation(
                       textBoutton: "RETOUR",
-                      page: SingUp(),
                       size: size,
                       errorResp: 1,
-                      textValidate: "ERREUR DE CREATION DU COMPTE",
+                      textValidate:
+                          "ERREUR DE CREATION DE COMPTE, veuillez ressayer a nouveau "
+                              .toUpperCase(),
                       loading: false,
                     ),
                   ))
