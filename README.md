@@ -23,3 +23,6 @@ flutter pub get
 flutter pub run flutter_launcher_icons:main
 
 flutter build apk --split-per-abi
+
+LIEN GITHUB:
+https://github.com/MarikoOudou/tontine.git

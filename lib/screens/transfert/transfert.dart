@@ -158,8 +158,12 @@ class _TransfertState extends State<Transfert> {
                                 width: size.width,
                                 constraints: BoxConstraints(maxHeight: 100),
                                 child: TextField(
+                                  keyboardType: TextInputType.number,
                                   onChanged: (value) {
-                                    print(value);
+                                    // value < 0 ? null : value;
+                                    if (double.parse(value) < 0) {
+                                      return null;
+                                    }
                                     setState(() {
                                       print(value);
                                       if (value == null || value == "") {
@@ -168,14 +172,13 @@ class _TransfertState extends State<Transfert> {
                                         montant = int.tryParse(value)!.toInt();
                                       }
 
-                                      frais = montant * 0.01;
+                                      frais = 0;
 
-                                      montantTotal = montant + frais;
+                                      montantTotal = montant.toDouble();
                                     });
                                   },
                                   style: TextStyle(
                                       fontSize: 15.0, color: Colors.black),
-                                  keyboardType: TextInputType.number,
                                   decoration: InputDecoration(
                                     floatingLabelStyle:
                                         TextStyle(color: Colors.black),
@@ -221,7 +224,7 @@ class _TransfertState extends State<Transfert> {
                                 mainAxisSize: MainAxisSize.max,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text("Frais",
+                                  Text("Frais de rétrait",
                                       style: TextStyle(
                                           fontFamily: "Montserrat",
                                           fontSize: 15,
@@ -244,13 +247,13 @@ class _TransfertState extends State<Transfert> {
                                 mainAxisSize: MainAxisSize.max,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text("Total à envoyer",
+                                  Text("Somme à envoyer",
                                       style: TextStyle(
                                           fontFamily: "Montserrat",
                                           fontSize: 15,
                                           color: Colors.black,
                                           fontWeight: FontWeight.w500)),
-                                  Text("${montantTotal} FCFA",
+                                  Text("${montant} FCFA",
                                       style: TextStyle(
                                           fontFamily: "Montserrat",
                                           fontSize: 15,
@@ -263,7 +266,7 @@ class _TransfertState extends State<Transfert> {
                           Container(
                             child: ElevatedButton(
                                 onPressed: (() async {
-                                  if (montant != 0) {
+                                  if (montant > 0) {
                                     setState(() {
                                       loading = true;
                                     });
@@ -274,7 +277,7 @@ class _TransfertState extends State<Transfert> {
 
                                     Map<String, dynamic> resp = await tranfert({
                                       "receiverTel": tel,
-                                      "montant": montantTotal
+                                      "montant": montant
                                     });
 
                                     // print("loading true");
@@ -292,60 +295,6 @@ class _TransfertState extends State<Transfert> {
                                         create = true;
                                       });
                                     }
-
-                                    // showModalBottomSheet(
-                                    //     backgroundColor: ColorTheme.primaryColorBlue,
-                                    //     context: context,
-                                    //     isDismissible: false,
-                                    //     enableDrag: false,
-                                    //     shape: const RoundedRectangleBorder(
-                                    //       borderRadius: BorderRadius.vertical(
-                                    //         top: Radius.circular(30.0),
-                                    //       ),
-                                    //     ),
-                                    //     builder: (context) {
-                                    //       return FutureBuilder(
-                                    //           future: tranfert({
-                                    //             "receiverTel": tel,
-                                    //             "montant": montantTotal
-                                    //           }),
-                                    //           builder: ((context, snapshot) {
-                                    //             dynamic cotise = snapshot.data;
-
-                                    //             if (cotise == null) {
-                                    //               return ContenteValidation(
-                                    //                 textBoutton: "RETOUR",
-                                    //                 page: Transfert(user: widget.user),
-                                    //                 size: size,
-                                    //                 errorResp: 1,
-                                    //                 textValidate:
-                                    //                     "LE DEPOT A ETE EFFECTUER AVEC SUCCES",
-                                    //                 loading: true,
-                                    //               );
-                                    //             } else if (cotise["reponse"] == false) {
-                                    //               return ContenteValidation(
-                                    //                 textBoutton: "RETOUR",
-                                    //                 page: Transfert(user: widget.user),
-                                    //                 size: size,
-                                    //                 errorResp: 1,
-                                    //                 textValidate:
-                                    //                     "LE DEPOT A ETE EFFECTUER AVEC SUCCES",
-                                    //                 loading: true,
-                                    //               );
-                                    //             }
-
-                                    //             return ContenteValidation(
-                                    //               textBoutton: "RETOUR",
-                                    //               page: Transfert(user: widget.user),
-                                    //               size: size,
-                                    //               errorResp: 0,
-                                    //               textValidate:
-                                    //                   "LE DEPOT A ETE EFFECTUER AVEC SUCCES",
-                                    //               loading: false,
-                                    //             );
-                                    //           }));
-                                    //     })
-
                                   }
                                 }),
                                 child: Text(

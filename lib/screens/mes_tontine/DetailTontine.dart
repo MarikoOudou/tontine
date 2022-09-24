@@ -856,7 +856,8 @@ class _DetailTontineState extends State<DetailTontine> {
                                                                 title: Text(
                                                                   history["type"] ==
                                                                           "tontine_cotisation"
-                                                                      ? "Cotisation Tontine"
+                                                                      ? history[
+                                                                          "lib"]
                                                                       : "Autre",
                                                                   style:
                                                                       optionStyle,

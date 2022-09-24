@@ -115,71 +115,78 @@ class _MesTontineState extends State<MesTontine> {
                   width: size.width,
                   color: ColorTheme.primaryColorWhite[400],
                   margin: EdgeInsets.only(top: 0, bottom: 10),
-                  child: ListView.builder(
-                    itemCount:
-                        listTontine.length != null ? listTontine.length : 0,
-                    itemBuilder: ((context, index) {
-                      Tontine tontine = listTontine[index];
-                      return Container(
-                        padding: EdgeInsets.all(5),
-                        margin: EdgeInsets.only(bottom: 15),
-                        decoration: BoxDecoration(
-                            color: ColorTheme.primaryColorBlue,
-                            borderRadius: BorderRadius.circular(6),
-                            boxShadow: [
-                              BoxShadow(
-                                color: ColorTheme.primaryColorBlack
-                                    .withOpacity(0.8),
-                                spreadRadius: 1,
-                                blurRadius: 4,
-                                offset:
-                                    Offset(0, 1), // changes position of shadow
-                              ),
-                            ]),
-                        child: ListTile(
-                          onTap: (() {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: ((context) => DetailTontine(
-                                          objetTontine: tontine,
-                                        ))));
-                          }),
-                          title: Text(
-                            "${tontine.nom}",
-                            style: textStyleTitle,
-                          ),
-                          subtitle: Text(
-                            "${tontine.periodicite}",
-                            style: textStyleSub,
-                          ),
-                          trailing: Column(
-                            children: [
-                              Container(
-                                child: Text(
-                                  "${tontine.montant} FCFA",
-                                  style: textStyleTrailling,
+                  child: RefreshIndicator(
+                    onRefresh: () {
+                      return Future.delayed(Duration(seconds: 6));
+                      // loadingUser();
+                    },
+                    child: ListView.builder(
+                      itemCount:
+                          listTontine.length != null ? listTontine.length : 0,
+                      itemBuilder: ((context, index) {
+                        Tontine tontine = listTontine[index];
+                        return Container(
+                          padding: EdgeInsets.all(5),
+                          margin: EdgeInsets.only(bottom: 15),
+                          decoration: BoxDecoration(
+                              color: ColorTheme.primaryColorBlue,
+                              borderRadius: BorderRadius.circular(6),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: ColorTheme.primaryColorBlack
+                                      .withOpacity(0.8),
+                                  spreadRadius: 1,
+                                  blurRadius: 4,
+                                  offset: Offset(
+                                      0, 1), // changes position of shadow
                                 ),
-                              ),
-                              Container(
-                                child: tontine.compteur == null ||
-                                        tontine.compteur == 0
-                                    ? Text(
-                                        'Inactif',
-                                        style: textStyleSub,
-                                      )
-                                    : Text("Actif",
-                                        style: TextStyle(
-                                            color: ColorTheme.primaryColorWhite,
-                                            fontFamily: "RobotoMono",
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w500)),
-                              )
-                            ],
+                              ]),
+                          child: ListTile(
+                            onTap: (() {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: ((context) => DetailTontine(
+                                            objetTontine: tontine,
+                                          ))));
+                            }),
+                            title: Text(
+                              "${tontine.nom}",
+                              style: textStyleTitle,
+                            ),
+                            subtitle: Text(
+                              "${tontine.periodicite}",
+                              style: textStyleSub,
+                            ),
+                            trailing: Column(
+                              children: [
+                                Container(
+                                  child: Text(
+                                    "${tontine.montant} FCFA",
+                                    style: textStyleTrailling,
+                                  ),
+                                ),
+                                Container(
+                                  child: tontine.compteur == null ||
+                                          tontine.compteur == 0
+                                      ? Text(
+                                          'Inactif',
+                                          style: textStyleSub,
+                                        )
+                                      : Text("Actif",
+                                          style: TextStyle(
+                                              color:
+                                                  ColorTheme.primaryColorWhite,
+                                              fontFamily: "RobotoMono",
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w500)),
+                                )
+                              ],
+                            ),
                           ),
-                        ),
-                      );
-                    }),
+                        );
+                      }),
+                    ),
                   ),
                 ),
               ),

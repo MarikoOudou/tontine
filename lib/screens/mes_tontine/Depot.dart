@@ -79,18 +79,18 @@ class _DepotState extends State<Depot> {
                   mainAxisSize: MainAxisSize.max,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Frais",
-                        style: TextStyle(
-                            fontFamily: "Montserrat",
-                            fontSize: 15,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w500)),
-                    Text("${dataTontine.montant * 0.01} FCFA",
-                        style: TextStyle(
-                            fontFamily: "Montserrat",
-                            fontSize: 15,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w500)),
+                    // Text("Frais",
+                    //     style: TextStyle(
+                    //         fontFamily: "Montserrat",
+                    //         fontSize: 15,
+                    //         color: Colors.black,
+                    //         fontWeight: FontWeight.w500)),
+                    // Text("${dataTontine.montant * 0.01} FCFA",
+                    //     style: TextStyle(
+                    //         fontFamily: "Montserrat",
+                    //         fontSize: 15,
+                    //         color: Colors.black,
+                    //         fontWeight: FontWeight.w500)),
                   ],
                 ),
                 SizedBox(
@@ -107,8 +107,7 @@ class _DepotState extends State<Depot> {
                             fontSize: 15,
                             color: Colors.black,
                             fontWeight: FontWeight.w500)),
-                    Text(
-                        "${dataTontine.montant + (dataTontine.montant * 0.01)} FCFA",
+                    Text("${dataTontine.montant} FCFA",
                         style: TextStyle(
                             fontFamily: "Montserrat",
                             fontSize: 15,
@@ -143,8 +142,7 @@ class _DepotState extends State<Depot> {
                           return FutureBuilder(
                               future: CotisationSend({
                                 "idTontine": dataTontine.id,
-                                "montant": (dataTontine.montant +
-                                    (dataTontine.montant * 0.01))
+                                "montant": dataTontine.montant
                               }),
                               builder: ((context, snapshot) {
                                 dynamic cotise = snapshot.data;

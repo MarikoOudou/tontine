@@ -45,6 +45,8 @@ class User {
     print("ERREUR DE SERVEUR ${code}");
 
     if (code != null && code >= 400) {
+      // Map<dynamic, dynamic?> body = jsonDecode(response.body);
+      // print(body);
       return {"reponse": false, "message": "erreur du serveur"};
     } else {
       Map<dynamic, dynamic?> body = jsonDecode(response.body);
@@ -119,6 +121,8 @@ class User {
 
     if (code != null && code >= 400) {
       print("ERREUR DE SERVEUR");
+      Map<dynamic, dynamic?> body = jsonDecode(response.body);
+      print(body);
       return {"reponse": false, "message": "erreur du serveur"};
     } else {
       Map<dynamic, dynamic?> body = jsonDecode(response.body);

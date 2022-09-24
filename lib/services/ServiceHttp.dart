@@ -107,4 +107,29 @@ class ServiceHttp {
       return response;
     });
   }
+
+  // dynamic _returnResponse(http.Response response) {
+  //   String responseJson = response.body;
+  //   final jsonResponse = jsonDecode(responseJson);
+  //   switch (response.statusCode) {
+  //     case 200:
+  //       return jsonResponse;
+  //     case 400:
+  //       throw BadRequestException(
+  //           jsonResponse['message'] ?? AppConstants.exceptionMessage);
+  //     case 401:
+  //       throw InvalidInputException(
+  //           jsonResponse['message'] ?? AppConstants.exceptionMessage);
+  //     case 403:
+  //       throw UnauthorisedException(
+  //           jsonResponse['message'] ?? AppConstants.exceptionMessage);
+  //     case 404:
+  //       throw FetchDataException(
+  //           jsonResponse['message'] ?? AppConstants.exceptionMessage);
+  //     case 500:
+  //     default:
+  //       throw FetchDataException(
+  //           jsonResponse['message'] ?? AppConstants.exceptionMessage);
+  //   }
+  // }
 }
