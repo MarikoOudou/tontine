@@ -54,8 +54,41 @@ class MomoService {
       };
     } else {
       Map<dynamic, dynamic?> body = jsonDecode(response.body);
-
       print(body["message"]);
+
+      // http.Response responseValidate =
+      //     await serviceHttp.ge("utils/validate-transactions", path);
+
+      // print("Validation ..... ${responseValidate.body}");
+
+      return {"data": body, "reponse": true, "message": body["message"]};
+    }
+  }
+
+  validerTransaction() async {
+    path = "utils/validate-transactions";
+    // Map<dynamic, dynamic?> data = {"montant": montant.toString()};
+
+    http.Response response = await serviceHttp.getReqHttp(path);
+
+    int code = response.statusCode;
+    print("ERREUR DE SERVEUR ${code}");
+
+    if (code != null && code >= 400) {
+      return {
+        "reponse": true,
+        "code": code,
+        "message": jsonDecode(response.body)['message']
+      };
+    } else {
+      Map<dynamic, dynamic?> body = jsonDecode(response.body);
+      print(body["message"]);
+
+      // http.Response responseValidate =
+      //     await serviceHttp.ge("utils/validate-transactions", path);
+
+      // print("Validation ..... ${responseValidate.body}");
+
       return {"data": body, "reponse": true, "message": body["message"]};
     }
   }

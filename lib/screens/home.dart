@@ -9,6 +9,7 @@ import 'package:tontino/screens/CodeQr.dart';
 import 'package:tontino/screens/CreerTontine.dart';
 import 'package:tontino/screens/Profil.dart';
 import 'package:tontino/screens/ScreenQrcode.dart';
+import 'package:tontino/screens/Screen_my_transaction.dart';
 import 'package:tontino/screens/loading.dart';
 import 'package:tontino/screens/login.dart';
 import 'package:tontino/screens/mes_tontine/MesTontine.dart';
@@ -84,23 +85,20 @@ class _HomeState extends State<Home> {
     qrcodeEnco = jsonEncode(jsonEncode({"tel": user.tel}));
 
     print(qrcodeEnco);
-    return RefreshIndicator(
-      onRefresh: () {
-        return Future.delayed(Duration(seconds: 6));
-        // loadingUser();
-      },
-      child: Container(
-        margin: EdgeInsets.only(top: 5),
-        height: size.height - kToolbarHeight - 25,
-        width: size.width,
-        color: ColorTheme.primaryColorWhite[400],
-        padding: EdgeInsets.all(10),
-        child: Column(
-          children: [
-            getHeader(user),
-            getBody(size, user),
-          ],
-        ),
+    return Container(
+      margin: EdgeInsets.only(top: 5),
+      height: size.height - kToolbarHeight - 25,
+      width: size.width,
+      color: ColorTheme.primaryColorWhite[400],
+      padding: EdgeInsets.all(10),
+      child: Column(
+        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        // mainAxisSize: MainAxisSize.max,
+        // crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          getHeader(user),
+          getBody(size, user),
+        ],
       ),
     );
   }
@@ -196,7 +194,7 @@ class _HomeState extends State<Home> {
               child: getMenu(size, user.tel.toString()),
             ),
             Container(
-              height: (size.height * 0.79) * 0.4,
+              height: (size.height * 0.79) * 0.42,
               width: size.width,
               decoration: BoxDecoration(
                 color: ColorTheme.primaryColorBlue,
@@ -222,8 +220,7 @@ class _HomeState extends State<Home> {
 
   Container getHeader(User user) {
     return Container(
-      //margin: EdgeInsets.all(6),
-      padding: EdgeInsets.all(10),
+      padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
           color: ColorTheme.primaryColorBlue,
           borderRadius: BorderRadius.circular(6),
@@ -239,63 +236,42 @@ class _HomeState extends State<Home> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         mainAxisSize: MainAxisSize.max,
         children: [
-          Container(
-            child: Row(
-              children: [
-                Container(
-                  width: 40,
-                  height: 40,
-                  margin: EdgeInsets.only(right: 5),
-                  child: Image.asset(
-                    "assets/images/logo.png",
-                    width: 80,
-                  ),
+          Row(
+            children: [
+              Container(
+                width: 40,
+                height: 40,
+                margin: const EdgeInsets.only(right: 5),
+                child: Image.asset(
+                  "assets/images/logo.png",
+                  width: 80,
                 ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.max,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "${user.nom} ${user.prenom}".trim(),
-                      style: TextStyle(
-                          color: ColorTheme.primaryColorWhite,
-                          fontFamily: "RobotoMono",
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      "${user.slug}",
-                      style: TextStyle(
-                          color: ColorTheme.primaryColorYellow,
-                          fontFamily: "RobotoMono",
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500),
-                    ),
-                  ],
-                )
-              ],
-            ),
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisSize: MainAxisSize.max,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "${user.nom} ${user.prenom}".trim(),
+                    style: TextStyle(
+                        color: ColorTheme.primaryColorWhite,
+                        fontFamily: "RobotoMono",
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    "${user.slug}",
+                    style: TextStyle(
+                        color: ColorTheme.primaryColorYellow,
+                        fontFamily: "RobotoMono",
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500),
+                  ),
+                ],
+              )
+            ],
           ),
-          // Container(
-          //   child: Ink(
-          //     color: Colors.black,
-          //     child: InkWell(
-          //       onTap: (() {
-          //         Navigator.push(context,
-          //             MaterialPageRoute(builder: ((context) {
-          //           return Notifications();
-          //         })));
-          //       }),
-          //       splashColor: ColorTheme.primaryColorYellow,
-          //       child: Icon(
-          //         Icons.notifications,
-          //         size: 30,
-          //         color: Colors.white,
-          //       ),
-          //     ),
-          //   ),
-          // )
         ],
       ),
     );
@@ -333,6 +309,12 @@ class _HomeState extends State<Home> {
               itemBuilder: ((context, index) {
                 Map<String, dynamic> historique = historiques["data"][index];
                 return ListTile(
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: ((context) {
+                      return ScreenMyTransaction(id: historique['id']);
+                    })));
+                  },
                   leading: Container(
                     height: 40,
                     width: 40,

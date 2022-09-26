@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:tontino/models/user.dart';
 import 'package:tontino/screens/ContentVlider.dart';
 import 'package:tontino/screens/home.dart';
@@ -25,7 +26,7 @@ class _SingUpState extends State<SingUp> {
   User user = User();
 
   List<String> label = [
-    "Nom d'utilisateur",
+    // "Nom d'utilisateur",
     "Nom",
     "Prénom (s)",
     "Telephone",
@@ -45,11 +46,9 @@ class _SingUpState extends State<SingUp> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.zero,
-        child: AppBar(
-          title: const Text(''),
-        ),
+      appBar: AppBar(
+        elevation: 0,
+        title: const Text(''),
       ),
       body: SingleChildScrollView(
         child: loading
@@ -84,381 +83,351 @@ class _SingUpState extends State<SingUp> {
                 : create
                     ? SingleChildScrollView(
                         child: Container(
-                        height: size.height,
+                        height: size.height - 24,
                         color: ColorTheme.primaryColorBlue,
                         child: ContenteValidation(
                           textBoutton: "RETOUR",
                           page: Home(),
                           size: size,
                           errorResp: 0,
-                          textValidate: "VOTRE COMPTE A ETE CREER",
+                          textValidate: "VOTRE COMPTE A été CRée".toLowerCase(),
                           loading: false,
                         ),
                       ))
                     : Container(
-                        padding: EdgeInsets.only(
-                            top: 50, left: 20, right: 20, bottom: 50),
+                        padding: EdgeInsets.all(20),
                         color: ColorTheme.primaryColorBlue,
-                        height: size.height,
+                        height: size.height - kToolbarHeight,
                         width: size.width,
                         alignment: Alignment.center,
                         child: Form(
                           key: _formKey,
                           child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.start,
                             mainAxisSize: MainAxisSize.max,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Container(
-                                child: Text(
-                                  "Inscription",
-                                  style: optionStyle,
-                                ),
+                              Column(
+                                children: [
+                                  const Text(
+                                    "Inscription",
+                                    style: optionStyle,
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  Container(
+                                    clipBehavior: Clip.antiAlias,
+                                    decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(40)),
+                                    child: Image.asset(
+                                      "assets/images/logo.png",
+                                      width: 150,
+                                    ),
+                                  )
+                                ],
                               ),
-                              Container(
-                                margin: EdgeInsets.all(10),
-                                child: TextFormField(
-                                  // The validator receives the text that the user has entered.
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return '${textValidate[0]}';
-                                    }
-                                    user.username = value;
-                                    return null;
-                                  },
-                                  autofocus: false,
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      fontFamily: "Montserrat",
-                                      fontSize: 18,
-                                      color: ColorTheme.primaryColorWhite,
-                                      fontWeight: FontWeight.w700),
-                                  decoration: InputDecoration(
-                                      focusedBorder: OutlineInputBorder(
-                                          borderRadius: const BorderRadius.all(
-                                              Radius.circular(10.0)),
-                                          borderSide: BorderSide(
-                                            width: 2,
-                                            color:
-                                                ColorTheme.primaryColorYellow,
-                                          )),
-                                      contentPadding: EdgeInsets.all(10),
-                                      filled: false,
-                                      fillColor: ColorTheme.primaryColorYellow,
-                                      focusColor: ColorTheme.primaryColorYellow,
-                                      enabledBorder: OutlineInputBorder(
-                                        borderRadius: const BorderRadius.all(
-                                            Radius.circular(10.0)),
-                                        borderSide: BorderSide(
-                                          width: 2,
-                                          color: ColorTheme.primaryColorWhite,
-                                        ),
-                                      ),
-                                      border: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              width: 2,
-                                              color:
-                                                  ColorTheme.primaryColorWhite),
-                                          borderRadius: const BorderRadius.all(
-                                              Radius.circular(10.0))),
-
-                                      // labelText: label[0],
-                                      label: Text("${label[0]}"),
-                                      labelStyle: TextStyle(
-                                          fontFamily: "Montserrat",
-                                          fontSize: 15,
-                                          color: ColorTheme.primaryColorWhite,
-                                          fontWeight: FontWeight.w500)),
-                                ),
+                              const SizedBox(
+                                height: 20,
                               ),
-                              Container(
-                                margin: EdgeInsets.all(10),
-                                child: TextFormField(
-                                  // The validator receives the text that the user has entered.
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return '${textValidate[0]}';
-                                    }
-                                    user.nom = value;
-                                    return null;
-                                  },
-                                  autofocus: false,
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      fontFamily: "Montserrat",
-                                      fontSize: 18,
-                                      color: ColorTheme.primaryColorWhite,
-                                      fontWeight: FontWeight.w700),
-                                  decoration: InputDecoration(
-                                      focusedBorder: OutlineInputBorder(
-                                          borderRadius: const BorderRadius.all(
-                                              Radius.circular(10.0)),
-                                          borderSide: BorderSide(
-                                            width: 2,
-                                            color:
-                                                ColorTheme.primaryColorYellow,
-                                          )),
-                                      contentPadding: EdgeInsets.all(10),
-                                      filled: false,
-                                      fillColor: ColorTheme.primaryColorYellow,
-                                      focusColor: ColorTheme.primaryColorYellow,
-                                      enabledBorder: OutlineInputBorder(
-                                        borderRadius: const BorderRadius.all(
-                                            Radius.circular(10.0)),
-                                        borderSide: BorderSide(
-                                          width: 2,
-                                          color: ColorTheme.primaryColorWhite,
-                                        ),
-                                      ),
-                                      border: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              width: 2,
-                                              color:
-                                                  ColorTheme.primaryColorWhite),
-                                          borderRadius: const BorderRadius.all(
-                                              Radius.circular(10.0))),
-
-                                      // labelText: label[0],
-                                      label: Text("${label[1]}"),
-                                      labelStyle: TextStyle(
-                                          fontFamily: "Montserrat",
-                                          fontSize: 15,
-                                          color: ColorTheme.primaryColorWhite,
-                                          fontWeight: FontWeight.w500)),
-                                ),
-                              ),
-                              Container(
-                                margin: EdgeInsets.all(10),
-                                child: TextFormField(
-                                  // The validator receives the text that the user has entered.
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return '${textValidate[0]}';
-                                    }
-                                    user.prenom = value;
-                                    return null;
-                                  },
-                                  autofocus: false,
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      fontFamily: "Montserrat",
-                                      fontSize: 18,
-                                      color: ColorTheme.primaryColorWhite,
-                                      fontWeight: FontWeight.w700),
-                                  decoration: InputDecoration(
-                                      focusedBorder: OutlineInputBorder(
-                                          borderRadius: const BorderRadius.all(
-                                              Radius.circular(10.0)),
-                                          borderSide: BorderSide(
-                                            width: 2,
-                                            color:
-                                                ColorTheme.primaryColorYellow,
-                                          )),
-                                      contentPadding: EdgeInsets.all(10),
-                                      filled: false,
-                                      fillColor: ColorTheme.primaryColorYellow,
-                                      focusColor: ColorTheme.primaryColorYellow,
-                                      enabledBorder: OutlineInputBorder(
-                                        borderRadius: const BorderRadius.all(
-                                            Radius.circular(10.0)),
-                                        borderSide: BorderSide(
-                                          width: 2,
-                                          color: ColorTheme.primaryColorWhite,
-                                        ),
-                                      ),
-                                      border: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              width: 2,
-                                              color:
-                                                  ColorTheme.primaryColorWhite),
-                                          borderRadius: const BorderRadius.all(
-                                              Radius.circular(10.0))),
-
-                                      // labelText: label[0],
-                                      label: Text("${label[2]}"),
-                                      labelStyle: TextStyle(
-                                          fontFamily: "Montserrat",
-                                          fontSize: 15,
-                                          color: ColorTheme.primaryColorWhite,
-                                          fontWeight: FontWeight.w500)),
-                                ),
-                              ),
-                              Container(
-                                margin: EdgeInsets.all(10),
-                                child: TextFormField(
-                                  keyboardType: TextInputType.phone,
-                                  // The validator receives the text that the user has entered.
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return '${textValidate[0]}';
-                                    }
-                                    user.tel = value;
-                                    return null;
-                                  },
-                                  autofocus: false,
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      fontFamily: "Montserrat",
-                                      fontSize: 18,
-                                      color: ColorTheme.primaryColorWhite,
-                                      fontWeight: FontWeight.w700),
-                                  decoration: InputDecoration(
-                                      focusedBorder: OutlineInputBorder(
-                                          borderRadius: const BorderRadius.all(
-                                              Radius.circular(10.0)),
-                                          borderSide: BorderSide(
-                                            width: 2,
-                                            color:
-                                                ColorTheme.primaryColorYellow,
-                                          )),
-                                      contentPadding: EdgeInsets.all(10),
-                                      filled: false,
-                                      fillColor: ColorTheme.primaryColorYellow,
-                                      focusColor: ColorTheme.primaryColorYellow,
-                                      enabledBorder: OutlineInputBorder(
-                                        borderRadius: const BorderRadius.all(
-                                            Radius.circular(10.0)),
-                                        borderSide: BorderSide(
-                                          width: 2,
-                                          color: ColorTheme.primaryColorWhite,
-                                        ),
-                                      ),
-                                      border: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              width: 2,
-                                              color:
-                                                  ColorTheme.primaryColorWhite),
-                                          borderRadius: const BorderRadius.all(
-                                              Radius.circular(10.0))),
-
-                                      // labelText: label[0],
-                                      label: Text("${label[3]}"),
-                                      labelStyle: TextStyle(
-                                          fontFamily: "Montserrat",
-                                          fontSize: 15,
-                                          color: ColorTheme.primaryColorWhite,
-                                          fontWeight: FontWeight.w500)),
-                                ),
-                              ),
-                              Container(
-                                margin: EdgeInsets.all(10),
-                                child: TextFormField(
-                                  obscureText: true,
-                                  // The validator receives the text that the user has entered.
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return '${textValidate[0]}';
-                                    }
-                                    user.password = value;
-                                    return null;
-                                  },
-                                  autofocus: false,
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      fontFamily: "Montserrat",
-                                      fontSize: 18,
-                                      color: ColorTheme.primaryColorWhite,
-                                      fontWeight: FontWeight.w700),
-                                  decoration: InputDecoration(
-                                      focusedBorder: OutlineInputBorder(
-                                          borderRadius: const BorderRadius.all(
-                                              Radius.circular(10.0)),
-                                          borderSide: BorderSide(
-                                            width: 2,
-                                            color:
-                                                ColorTheme.primaryColorYellow,
-                                          )),
-                                      contentPadding: EdgeInsets.all(10),
-                                      filled: false,
-                                      fillColor: ColorTheme.primaryColorYellow,
-                                      focusColor: ColorTheme.primaryColorYellow,
-                                      enabledBorder: OutlineInputBorder(
-                                        borderRadius: const BorderRadius.all(
-                                            Radius.circular(10.0)),
-                                        borderSide: BorderSide(
-                                          width: 2,
-                                          color: ColorTheme.primaryColorWhite,
-                                        ),
-                                      ),
-                                      border: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              width: 2,
-                                              color:
-                                                  ColorTheme.primaryColorWhite),
-                                          borderRadius: const BorderRadius.all(
-                                              Radius.circular(10.0))),
-
-                                      // labelText: label[0],
-                                      label: Text("${label[4]}"),
-                                      labelStyle: TextStyle(
-                                          fontFamily: "Montserrat",
-                                          fontSize: 15,
-                                          color: ColorTheme.primaryColorWhite,
-                                          fontWeight: FontWeight.w500)),
-                                ),
-                              ),
-                              Container(
-                                  child: ElevatedButton(
-                                onPressed: () async {
-                                  // Validate returns true if the form is valid, or false otherwise.
-                                  // print(_contentFrequencePersonnaliser.switchPeriode);
-
-                                  if (_formKey.currentState!.validate()) {
-                                    // If the form is valid, display a snackbar. In the real world,
-                                    // you'd often call a server or save the information in a database.
-                                    print(user.toJsonMap());
-
-                                    if (_formKey.currentState!.validate()) {
-                                      setState(() {
-                                        loading = true;
-                                      });
-
-                                      Map<String, dynamic> resp =
-                                          await user.create();
-
-                                      // print("loading true");
-                                      print("Response ${resp}");
-
-                                      if (!resp["reponse"]) {
-                                        // print("loading false");
-                                        setState(() {
-                                          loading = false;
-                                          error = true;
-                                        });
-                                      } else {
-                                        await user.login(
-                                            telephone: user.tel,
-                                            motDpass: user.password);
-                                        setState(() {
-                                          loading = false;
-                                          create = true;
-                                        });
-                                      }
-                                    }
+                              TextFormField(
+                                // The validator receives the text that the user has entered.
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return '${textValidate[0]}';
                                   }
+                                  user.nom = value;
+                                  return null;
                                 },
-                                child: Text(
-                                  "Inscription",
-                                  style: TextStyle(
-                                      fontFamily: "Montserrat",
-                                      fontSize: size.width * 0.04,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white),
-                                ),
-                                style: ButtonStyle(
-                                    backgroundColor:
-                                        MaterialStateProperty.all<Color>(
-                                            ColorTheme.primaryColorYellow),
-                                    shape: MaterialStateProperty.all<
-                                        RoundedRectangleBorder>(
-                                      RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(6.0),
-                                          side: BorderSide(
-                                              color: ColorTheme
-                                                  .primaryColorYellow)),
-                                    )),
-                              )),
+                                autofocus: false,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontFamily: "Montserrat",
+                                    fontSize: 18,
+                                    color: ColorTheme.primaryColorWhite,
+                                    fontWeight: FontWeight.w700),
+                                decoration: InputDecoration(
+                                    focusedBorder: OutlineInputBorder(
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(10.0)),
+                                        borderSide: BorderSide(
+                                          width: 2,
+                                          color: ColorTheme.primaryColorYellow,
+                                        )),
+                                    contentPadding: EdgeInsets.all(10),
+                                    filled: false,
+                                    fillColor: ColorTheme.primaryColorYellow,
+                                    focusColor: ColorTheme.primaryColorYellow,
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(10.0)),
+                                      borderSide: BorderSide(
+                                        width: 2,
+                                        color: ColorTheme.primaryColorWhite,
+                                      ),
+                                    ),
+                                    border: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            width: 2,
+                                            color:
+                                                ColorTheme.primaryColorWhite),
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(10.0))),
+
+                                    // labelText: label[0],
+                                    label: Text("${label[0]}"),
+                                    labelStyle: TextStyle(
+                                        fontFamily: "Montserrat",
+                                        fontSize: 15,
+                                        color: ColorTheme.primaryColorWhite,
+                                        fontWeight: FontWeight.w500)),
+                              ),
+                              const SizedBox(
+                                height: 15,
+                              ),
+                              TextFormField(
+                                // The validator receives the text that the user has entered.
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return '${textValidate[0]}';
+                                  }
+                                  user.prenom = value;
+                                  return null;
+                                },
+                                autofocus: false,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontFamily: "Montserrat",
+                                    fontSize: 18,
+                                    color: ColorTheme.primaryColorWhite,
+                                    fontWeight: FontWeight.w700),
+                                decoration: InputDecoration(
+                                    focusedBorder: OutlineInputBorder(
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(10.0)),
+                                        borderSide: BorderSide(
+                                          width: 2,
+                                          color: ColorTheme.primaryColorYellow,
+                                        )),
+                                    contentPadding: EdgeInsets.all(10),
+                                    filled: false,
+                                    fillColor: ColorTheme.primaryColorYellow,
+                                    focusColor: ColorTheme.primaryColorYellow,
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(10.0)),
+                                      borderSide: BorderSide(
+                                        width: 2,
+                                        color: ColorTheme.primaryColorWhite,
+                                      ),
+                                    ),
+                                    border: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            width: 2,
+                                            color:
+                                                ColorTheme.primaryColorWhite),
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(10.0))),
+
+                                    // labelText: label[0],
+                                    label: Text("${label[1]}"),
+                                    labelStyle: TextStyle(
+                                        fontFamily: "Montserrat",
+                                        fontSize: 15,
+                                        color: ColorTheme.primaryColorWhite,
+                                        fontWeight: FontWeight.w500)),
+                              ),
+                              const SizedBox(
+                                height: 15,
+                              ),
+                              TextFormField(
+                                keyboardType:
+                                    const TextInputType.numberWithOptions(
+                                        signed: true, decimal: true),
+                                // controller: _montantcontroller,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.digitsOnly,
+                                  FilteringTextInputFormatter.allow(
+                                      RegExp('[0-9.,]')),
+                                ],
+                                // The validator receives the text that the user has entered.
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return '${textValidate[0]}';
+                                  }
+                                  user.tel = value;
+                                  return null;
+                                },
+                                autofocus: false,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontFamily: "Montserrat",
+                                    fontSize: 18,
+                                    color: ColorTheme.primaryColorWhite,
+                                    fontWeight: FontWeight.w700),
+                                decoration: InputDecoration(
+                                    focusedBorder: OutlineInputBorder(
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(10.0)),
+                                        borderSide: BorderSide(
+                                          width: 2,
+                                          color: ColorTheme.primaryColorYellow,
+                                        )),
+                                    contentPadding: EdgeInsets.all(10),
+                                    filled: false,
+                                    fillColor: ColorTheme.primaryColorYellow,
+                                    focusColor: ColorTheme.primaryColorYellow,
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(10.0)),
+                                      borderSide: BorderSide(
+                                        width: 2,
+                                        color: ColorTheme.primaryColorWhite,
+                                      ),
+                                    ),
+                                    border: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            width: 2,
+                                            color:
+                                                ColorTheme.primaryColorWhite),
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(10.0))),
+
+                                    // labelText: label[0],
+                                    label: Text("${label[2]}"),
+                                    labelStyle: TextStyle(
+                                        fontFamily: "Montserrat",
+                                        fontSize: 15,
+                                        color: ColorTheme.primaryColorWhite,
+                                        fontWeight: FontWeight.w500)),
+                              ),
+                              const SizedBox(
+                                height: 15,
+                              ),
+                              TextFormField(
+                                // The validator receives the text that the user has entered.
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return '${textValidate[0]}';
+                                  }
+                                  user.password = value;
+                                  return null;
+                                },
+                                obscureText: true,
+                                autofocus: false,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontFamily: "Montserrat",
+                                    fontSize: 18,
+                                    color: ColorTheme.primaryColorWhite,
+                                    fontWeight: FontWeight.w700),
+                                decoration: InputDecoration(
+                                    focusedBorder: OutlineInputBorder(
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(10.0)),
+                                        borderSide: BorderSide(
+                                          width: 2,
+                                          color: ColorTheme.primaryColorYellow,
+                                        )),
+                                    contentPadding: EdgeInsets.all(10),
+                                    filled: false,
+                                    fillColor: ColorTheme.primaryColorYellow,
+                                    focusColor: ColorTheme.primaryColorYellow,
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(10.0)),
+                                      borderSide: BorderSide(
+                                        width: 2,
+                                        color: ColorTheme.primaryColorWhite,
+                                      ),
+                                    ),
+                                    border: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            width: 2,
+                                            color:
+                                                ColorTheme.primaryColorWhite),
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(10.0))),
+
+                                    // labelText: label[0],
+                                    label: Text("${label[3]}"),
+                                    labelStyle: TextStyle(
+                                        fontFamily: "Montserrat",
+                                        fontSize: 15,
+                                        color: ColorTheme.primaryColorWhite,
+                                        fontWeight: FontWeight.w500)),
+                              ),
+                              const SizedBox(
+                                height: 15,
+                              ),
+                              SizedBox(
+                                  width: double.infinity,
+                                  child: ElevatedButton(
+                                    onPressed: () async {
+                                      // Validate returns true if the form is valid, or false otherwise.
+                                      // print(_contentFrequencePersonnaliser.switchPeriode);
+
+                                      if (_formKey.currentState!.validate()) {
+                                        // If the form is valid, display a snackbar. In the real world,
+                                        // you'd often call a server or save the information in a database.
+                                        print(user.toJsonMap());
+
+                                        if (_formKey.currentState!.validate()) {
+                                          setState(() {
+                                            loading = true;
+                                          });
+
+                                          Map<String, dynamic> resp =
+                                              await user.create();
+
+                                          // print("loading true");
+                                          print("Response ${resp}");
+
+                                          if (!resp["reponse"]) {
+                                            // print("loading false");
+                                            setState(() {
+                                              loading = false;
+                                              error = true;
+                                            });
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(SnackBar(
+                                              content: Text("Sending Message"),
+                                            ));
+                                          } else {
+                                            await user.login(
+                                                telephone: user.tel,
+                                                motDpass: user.password);
+                                            setState(() {
+                                              loading = false;
+                                              create = true;
+                                            });
+                                          }
+                                        }
+                                      }
+                                    },
+                                    child: Text(
+                                      "Inscription",
+                                      style: TextStyle(
+                                          fontFamily: "Montserrat",
+                                          fontSize: size.width * 0.04,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white),
+                                    ),
+                                    style: ButtonStyle(
+                                        backgroundColor:
+                                            MaterialStateProperty.all<Color>(
+                                                ColorTheme.primaryColorYellow),
+                                        shape: MaterialStateProperty.all<
+                                            RoundedRectangleBorder>(
+                                          RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(6.0),
+                                              side: BorderSide(
+                                                  color: ColorTheme
+                                                      .primaryColorYellow)),
+                                        )),
+                                  )),
                             ],
                           ),
                         ),

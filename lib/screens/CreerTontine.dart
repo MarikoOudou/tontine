@@ -126,7 +126,7 @@ class _CreerTontineState extends State<CreerTontine> {
                       textBoutton: "RETOUR",
                       size: size,
                       errorResp: 0,
-                      textValidate: "VOTRE TONTINE A ETE CREER",
+                      textValidate: "VOTRE TONTINE A été créée".toLowerCase(),
                       loading: false,
                     ),
                   ))

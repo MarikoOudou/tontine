@@ -41,14 +41,14 @@ class _DetailTontineState extends State<DetailTontine> {
   ServiceHttp serviceHttp = ServiceHttp();
 
   String telCreateur = "";
-  getTel() async {
-    return await serviceHttp.getTel();
+  getTel() {
+    return serviceHttp.getTel();
   }
 
   static const TextStyle optionStyle =
       TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white);
   static Tontine dataToSend = Tontine();
-
+  List<Widget> buttonMenu = [];
   @override
   void initState() {
     // TODO: implement initState
@@ -61,333 +61,6 @@ class _DetailTontineState extends State<DetailTontine> {
     Size size = MediaQuery.of(context).size;
     print(widget.objetTontine.toJsonMap());
     qrcodeEnco = jsonEncode(jsonEncode((widget.objetTontine.toJsonMap())));
-    print("TEL CREATEUR DE LA TONTINE : ${telCreateur}");
-
-    List<Widget> buttonMenu = widget.objetTontine.compteur != 0
-        ? [
-            InkWell(
-              splashColor: Colors.grey,
-              onTap: (() {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: ((context) => MesContacts(
-                              tontine: widget.objetTontine,
-                            ))));
-              }),
-              child: Container(
-                width: 70,
-                child: Column(
-                  children: [
-                    Container(
-                      height: 40,
-                      width: 40,
-                      padding: EdgeInsets.all(5),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          gradient: LinearGradient(
-                            colors: [
-                              Color(0xff004f71),
-                              Color(0xffffc304),
-                            ],
-                            begin: Alignment.bottomLeft,
-                            end: Alignment.topRight,
-                          )),
-                      child: Icon(
-                        Icons.list_rounded,
-                        // size: 40,
-                        color: Colors.white,
-                      ),
-                    ),
-                    Text("Membres",
-                        style: TextStyle(
-                            overflow: TextOverflow.ellipsis,
-                            color: ColorTheme.primaryColorWhite,
-                            fontFamily: "RobotoMono",
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold)),
-                  ],
-                ),
-              ),
-            ),
-            InkWell(
-              splashColor: Colors.grey,
-              onTap: (() {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: ((context) => RetardPaye(
-                              tontine: widget.objetTontine,
-                            ))));
-              }),
-              child: Container(
-                width: 70,
-                child: Column(
-                  children: [
-                    Container(
-                      height: 40,
-                      width: 40,
-                      padding: EdgeInsets.all(5),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          gradient: LinearGradient(
-                            colors: [
-                              Color(0xff004f71),
-                              Color(0xffffc304),
-                            ],
-                            begin: Alignment.bottomLeft,
-                            end: Alignment.topRight,
-                          )),
-                      child: Icon(
-                        Icons.list_rounded,
-                        // size: 40,
-                        color: Colors.white,
-                      ),
-                    ),
-                    Text("Rétard",
-                        style: TextStyle(
-                            overflow: TextOverflow.ellipsis,
-                            color: ColorTheme.primaryColorWhite,
-                            fontFamily: "RobotoMono",
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold)),
-                  ],
-                ),
-              ),
-            ),
-            // InkWell(
-            //   splashColor: Colors.grey,
-            //   onTap: (() {
-            //     Navigator.push(
-            //         context,
-            //         MaterialPageRoute(
-            //             builder: ((context) => TchatTontine(
-            //                   id_tontine: (widget.objetTontine.id),
-            //                   size: size,
-            //                 ))));
-            //   }),
-            //   child: Container(
-            //     width: 70,
-            //     child: Column(
-            //       children: [
-            //         Container(
-            //           height: 40,
-            //           width: 40,
-            //           padding: EdgeInsets.all(5),
-            //           decoration: BoxDecoration(
-            //               borderRadius: BorderRadius.circular(10),
-            //               gradient: LinearGradient(
-            //                 colors: [
-            //                   Color(0xff004f71),
-            //                   Color(0xffffc304),
-            //                 ],
-            //                 begin: Alignment.bottomLeft,
-            //                 end: Alignment.topRight,
-            //               )),
-            //           child: Icon(
-            //             Icons.chat_sharp,
-            //             // size: 40,
-            //             color: Colors.white,
-            //           ),
-            //         ),
-            //         Text("Chat",
-            //             style: TextStyle(
-            //                 color: ColorTheme.primaryColorWhite,
-            //                 fontFamily: "RobotoMono",
-            //                 fontSize: 15,
-            //                 fontWeight: FontWeight.bold)),
-            //       ],
-            //     ),
-            //   ),
-            // ),
-
-            InkWell(
-              splashColor: Colors.grey,
-              onTap: (() {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: ((context) => Depot(
-                              tontine: widget.objetTontine,
-                            ))));
-              }),
-              child: Container(
-                width: 70,
-                child: Column(
-                  children: [
-                    Container(
-                      height: 40,
-                      width: 40,
-                      padding: EdgeInsets.all(5),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          gradient: LinearGradient(
-                            colors: [
-                              Color(0xff004f71),
-                              Color(0xffffc304),
-                            ],
-                            begin: Alignment.bottomLeft,
-                            end: Alignment.topRight,
-                          )),
-                      child: Icon(
-                        Icons.send,
-                        // size: 40,
-                        color: Colors.white,
-                      ),
-                    ),
-                    Text("Cotisation",
-                        style: TextStyle(
-                            color: ColorTheme.primaryColorWhite,
-                            fontFamily: "RobotoMono",
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold)),
-                  ],
-                ),
-              ),
-            ),
-          ]
-        : (telCreateur == widget.objetTontine.createdBy &&
-                widget.objetTontine.compteur == 0)
-            ? [
-                InkWell(
-                  splashColor: Colors.grey,
-                  onTap: (() {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: ((context) => MesContacts(
-                                  tontine: widget.objetTontine,
-                                ))));
-                  }),
-                  child: Container(
-                    width: 70,
-                    child: Column(
-                      children: [
-                        Container(
-                          height: 40,
-                          width: 40,
-                          padding: EdgeInsets.all(5),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              gradient: LinearGradient(
-                                colors: [
-                                  Color(0xff004f71),
-                                  Color(0xffffc304),
-                                ],
-                                begin: Alignment.bottomLeft,
-                                end: Alignment.topRight,
-                              )),
-                          child: Icon(
-                            Icons.list_rounded,
-                            // size: 40,
-                            color: Colors.white,
-                          ),
-                        ),
-                        Text("Membres",
-                            style: TextStyle(
-                                overflow: TextOverflow.ellipsis,
-                                color: ColorTheme.primaryColorWhite,
-                                fontFamily: "RobotoMono",
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold)),
-                      ],
-                    ),
-                  ),
-                ),
-                InkWell(
-                  splashColor: Colors.grey,
-                  onTap: (() {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: ((context) {
-                      return ScreenQrcode(
-                        typeScanner: 1,
-                        idTontine: widget.objetTontine.id,
-                      );
-                    })));
-                  }),
-                  child: Container(
-                    width: 70,
-                    child: Column(
-                      children: [
-                        Container(
-                          height: 40,
-                          width: 40,
-                          padding: EdgeInsets.all(5),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              gradient: LinearGradient(
-                                colors: [
-                                  Color(0xff004f71),
-                                  Color(0xffffc304),
-                                ],
-                                begin: Alignment.bottomLeft,
-                                end: Alignment.topRight,
-                              )),
-                          child: Icon(
-                            Icons.qr_code_scanner_rounded,
-                            // size: 40,
-                            color: Colors.white,
-                          ),
-                        ),
-                        Text("Inviter",
-                            style: TextStyle(
-                                overflow: TextOverflow.ellipsis,
-                                color: ColorTheme.primaryColorWhite,
-                                fontFamily: "RobotoMono",
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold)),
-                      ],
-                    ),
-                  ),
-                ),
-              ]
-            : [
-                InkWell(
-                  splashColor: Colors.grey,
-                  onTap: (() {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: ((context) => MesContacts(
-                                  tontine: widget.objetTontine,
-                                ))));
-                  }),
-                  child: Container(
-                    width: 70,
-                    child: Column(
-                      children: [
-                        Container(
-                          height: 40,
-                          width: 40,
-                          padding: EdgeInsets.all(5),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              gradient: LinearGradient(
-                                colors: [
-                                  Color(0xff004f71),
-                                  Color(0xffffc304),
-                                ],
-                                begin: Alignment.bottomLeft,
-                                end: Alignment.topRight,
-                              )),
-                          child: Icon(
-                            Icons.list_rounded,
-                            // size: 40,
-                            color: Colors.white,
-                          ),
-                        ),
-                        Text("Membres",
-                            style: TextStyle(
-                                overflow: TextOverflow.ellipsis,
-                                color: ColorTheme.primaryColorWhite,
-                                fontFamily: "RobotoMono",
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold)),
-                      ],
-                    ),
-                  ),
-                ),
-              ];
 
     return loading
         ? SingleChildScrollView(
@@ -436,38 +109,7 @@ class _DetailTontineState extends State<DetailTontine> {
                     ),
                   ))
                 : Scaffold(
-                    appBar: AppBar(
-                      elevation: 0,
-                      title: Container(
-                        child: Row(
-                          children: [
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "${widget.objetTontine.nom}",
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontFamily: "RobotoMono",
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                Text(
-                                  "créer par : ${widget.objetTontine.createdBy}",
-                                  style: TextStyle(
-                                      color: ColorTheme.primaryColorYellow,
-                                      fontFamily: "RobotoMono",
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                              ],
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
+                    appBar: Header(),
                     body: Stack(
                       children: [
                         SingleChildScrollView(
@@ -484,6 +126,381 @@ class _DetailTontineState extends State<DetailTontine> {
                                   if (snapshot.data == null) {
                                     return CircularProgressIndicator();
                                   }
+
+                                  buttonMenu = widget.objetTontine.compteur != 0
+                                      ? [
+                                          InkWell(
+                                            splashColor: Colors.grey,
+                                            onTap: (() {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: ((context) =>
+                                                          MesContacts(
+                                                            tontine: widget
+                                                                .objetTontine,
+                                                          ))));
+                                            }),
+                                            child: Container(
+                                              width: 70,
+                                              child: Column(
+                                                children: [
+                                                  Container(
+                                                    height: 40,
+                                                    width: 40,
+                                                    padding: EdgeInsets.all(5),
+                                                    decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                        gradient:
+                                                            LinearGradient(
+                                                          colors: [
+                                                            Color(0xff004f71),
+                                                            Color(0xffffc304),
+                                                          ],
+                                                          begin: Alignment
+                                                              .bottomLeft,
+                                                          end: Alignment
+                                                              .topRight,
+                                                        )),
+                                                    child: Icon(
+                                                      Icons.list_rounded,
+                                                      // size: 40,
+                                                      color: Colors.white,
+                                                    ),
+                                                  ),
+                                                  Text("Membres",
+                                                      style: TextStyle(
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                          color: ColorTheme
+                                                              .primaryColorWhite,
+                                                          fontFamily:
+                                                              "RobotoMono",
+                                                          fontSize: 15,
+                                                          fontWeight:
+                                                              FontWeight.bold)),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          InkWell(
+                                            splashColor: Colors.grey,
+                                            onTap: (() {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: ((context) =>
+                                                          RetardPaye(
+                                                            tontine: widget
+                                                                .objetTontine,
+                                                          ))));
+                                            }),
+                                            child: Container(
+                                              width: 70,
+                                              child: Column(
+                                                children: [
+                                                  Container(
+                                                    height: 40,
+                                                    width: 40,
+                                                    padding: EdgeInsets.all(5),
+                                                    decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                        gradient:
+                                                            LinearGradient(
+                                                          colors: [
+                                                            Color(0xff004f71),
+                                                            Color(0xffffc304),
+                                                          ],
+                                                          begin: Alignment
+                                                              .bottomLeft,
+                                                          end: Alignment
+                                                              .topRight,
+                                                        )),
+                                                    child: Icon(
+                                                      Icons.list_rounded,
+                                                      // size: 40,
+                                                      color: Colors.white,
+                                                    ),
+                                                  ),
+                                                  Text("Rétard",
+                                                      style: TextStyle(
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                          color: ColorTheme
+                                                              .primaryColorWhite,
+                                                          fontFamily:
+                                                              "RobotoMono",
+                                                          fontSize: 15,
+                                                          fontWeight:
+                                                              FontWeight.bold)),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          InkWell(
+                                            splashColor: Colors.grey,
+                                            onTap: (() {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: ((context) =>
+                                                          Depot(
+                                                            tontine: widget
+                                                                .objetTontine,
+                                                          ))));
+                                            }),
+                                            child: Container(
+                                              width: 70,
+                                              child: Column(
+                                                children: [
+                                                  Container(
+                                                    height: 40,
+                                                    width: 40,
+                                                    padding: EdgeInsets.all(5),
+                                                    decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                        gradient:
+                                                            LinearGradient(
+                                                          colors: [
+                                                            Color(0xff004f71),
+                                                            Color(0xffffc304),
+                                                          ],
+                                                          begin: Alignment
+                                                              .bottomLeft,
+                                                          end: Alignment
+                                                              .topRight,
+                                                        )),
+                                                    child: Icon(
+                                                      Icons.send,
+                                                      // size: 40,
+                                                      color: Colors.white,
+                                                    ),
+                                                  ),
+                                                  Text("Cotisation",
+                                                      style: TextStyle(
+                                                          color: ColorTheme
+                                                              .primaryColorWhite,
+                                                          fontFamily:
+                                                              "RobotoMono",
+                                                          fontSize: 15,
+                                                          fontWeight:
+                                                              FontWeight.bold)),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ]
+                                      : (telCreateur ==
+                                                  widget
+                                                      .objetTontine.createdBy &&
+                                              widget.objetTontine.compteur == 0)
+                                          ? [
+                                              InkWell(
+                                                splashColor: Colors.grey,
+                                                onTap: (() {
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: ((context) =>
+                                                              MesContacts(
+                                                                tontine: widget
+                                                                    .objetTontine,
+                                                              ))));
+                                                }),
+                                                child: Container(
+                                                  width: 70,
+                                                  child: Column(
+                                                    children: [
+                                                      Container(
+                                                        height: 40,
+                                                        width: 40,
+                                                        padding:
+                                                            EdgeInsets.all(5),
+                                                        decoration:
+                                                            BoxDecoration(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            10),
+                                                                gradient:
+                                                                    LinearGradient(
+                                                                  colors: [
+                                                                    Color(
+                                                                        0xff004f71),
+                                                                    Color(
+                                                                        0xffffc304),
+                                                                  ],
+                                                                  begin: Alignment
+                                                                      .bottomLeft,
+                                                                  end: Alignment
+                                                                      .topRight,
+                                                                )),
+                                                        child: Icon(
+                                                          Icons.list_rounded,
+                                                          // size: 40,
+                                                          color: Colors.white,
+                                                        ),
+                                                      ),
+                                                      Text("Membres",
+                                                          style: TextStyle(
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .ellipsis,
+                                                              color: ColorTheme
+                                                                  .primaryColorWhite,
+                                                              fontFamily:
+                                                                  "RobotoMono",
+                                                              fontSize: 15,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold)),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                              InkWell(
+                                                splashColor: Colors.grey,
+                                                onTap: (() {
+                                                  Navigator.push(context,
+                                                      MaterialPageRoute(
+                                                          builder: ((context) {
+                                                    return ScreenQrcode(
+                                                      typeScanner: 1,
+                                                      idTontine: widget
+                                                          .objetTontine.id,
+                                                    );
+                                                  })));
+                                                }),
+                                                child: Container(
+                                                  width: 70,
+                                                  child: Column(
+                                                    children: [
+                                                      Container(
+                                                        height: 40,
+                                                        width: 40,
+                                                        padding:
+                                                            EdgeInsets.all(5),
+                                                        decoration:
+                                                            BoxDecoration(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            10),
+                                                                gradient:
+                                                                    LinearGradient(
+                                                                  colors: [
+                                                                    Color(
+                                                                        0xff004f71),
+                                                                    Color(
+                                                                        0xffffc304),
+                                                                  ],
+                                                                  begin: Alignment
+                                                                      .bottomLeft,
+                                                                  end: Alignment
+                                                                      .topRight,
+                                                                )),
+                                                        child: Icon(
+                                                          Icons
+                                                              .qr_code_scanner_rounded,
+                                                          // size: 40,
+                                                          color: Colors.white,
+                                                        ),
+                                                      ),
+                                                      Text("Inviter",
+                                                          style: TextStyle(
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .ellipsis,
+                                                              color: ColorTheme
+                                                                  .primaryColorWhite,
+                                                              fontFamily:
+                                                                  "RobotoMono",
+                                                              fontSize: 15,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold)),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ]
+                                          : [
+                                              InkWell(
+                                                splashColor: Colors.grey,
+                                                onTap: (() {
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: ((context) =>
+                                                              MesContacts(
+                                                                tontine: widget
+                                                                    .objetTontine,
+                                                              ))));
+                                                }),
+                                                child: Container(
+                                                  width: 70,
+                                                  child: Column(
+                                                    children: [
+                                                      Container(
+                                                        height: 40,
+                                                        width: 40,
+                                                        padding:
+                                                            EdgeInsets.all(5),
+                                                        decoration:
+                                                            BoxDecoration(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            10),
+                                                                gradient:
+                                                                    LinearGradient(
+                                                                  colors: [
+                                                                    Color(
+                                                                        0xff004f71),
+                                                                    Color(
+                                                                        0xffffc304),
+                                                                  ],
+                                                                  begin: Alignment
+                                                                      .bottomLeft,
+                                                                  end: Alignment
+                                                                      .topRight,
+                                                                )),
+                                                        child: Icon(
+                                                          Icons.list_rounded,
+                                                          // size: 40,
+                                                          color: Colors.white,
+                                                        ),
+                                                      ),
+                                                      Text("Membres",
+                                                          style: TextStyle(
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .ellipsis,
+                                                              color: ColorTheme
+                                                                  .primaryColorWhite,
+                                                              fontFamily:
+                                                                  "RobotoMono",
+                                                              fontSize: 15,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold)),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ];
+
+                                  print(
+                                      "TEL CREATEUR DE LA TONTINE : ${telCreateur}");
+
+                                  print(
+                                      "LES DONNEES DE LA TONTINES : ${widget.objetTontine.avancement}");
 
                                   List<Widget> menu = [
                                     Container(
@@ -626,10 +643,12 @@ class _DetailTontineState extends State<DetailTontine> {
                                                                   FontWeight
                                                                       .bold)),
                                                       Text(
-                                                          widget.objetTontine!
-                                                                      .avancement ==
-                                                                  null
-                                                              ? "${widget.objetTontine!.avancement!['pourcentage']!.toInt()} %"
+                                                          widget
+                                                                      .objetTontine!
+                                                                      .avancement
+                                                                      .length >
+                                                                  0
+                                                              ? "${widget.objetTontine!.avancement!['pourcentage'].toString()} %"
                                                               : "0 %",
                                                           style: TextStyle(
                                                               color: ColorTheme
@@ -957,6 +976,41 @@ class _DetailTontineState extends State<DetailTontine> {
                       ],
                     ),
                   );
+  }
+
+  AppBar Header() {
+    return AppBar(
+      elevation: 0,
+      title: Container(
+        child: Row(
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "${widget.objetTontine.nom}",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontFamily: "RobotoMono",
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  "créer par : ${widget.objetTontine.createdBy}",
+                  style: TextStyle(
+                      color: ColorTheme.primaryColorYellow,
+                      fontFamily: "RobotoMono",
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500),
+                ),
+              ],
+            )
+          ],
+        ),
+      ),
+    );
   }
 
   getCODEQR(BuildContext context, Size size, String dataQR) {

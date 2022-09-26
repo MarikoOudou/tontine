@@ -20,7 +20,7 @@ class _ScreenDepotState extends State<ScreenDepot> {
   int montantEnvoyer = 0;
   double frais = 0.01;
   int montantfrais = 0;
-  bool _validate = true;
+  bool _validate = false;
   bool loading = false;
   bool create = false;
   bool error = false;
@@ -121,7 +121,9 @@ class _ScreenDepotState extends State<ScreenDepot> {
                         // page: Home(),
                         size: size,
                         errorResp: 0,
-                        textValidate: message,
+                        fonctionValue: 0,
+                        textValidate:
+                            "VOTRE TRANSACTION EST EN ATTEND DE VALIDATION",
                         loading: false,
                       ),
                     ))
@@ -160,6 +162,8 @@ class _ScreenDepotState extends State<ScreenDepot> {
                                     // initialValue: "0",
                                     onChanged: (value) {
                                       setState(() {
+                                        _validate = true;
+
                                         if (value == null || value.isEmpty) {
                                           _validate = true;
                                           montantfrais = 0;
@@ -198,10 +202,10 @@ class _ScreenDepotState extends State<ScreenDepot> {
                                         fontWeight: FontWeight.w700),
                                     decoration: InputDecoration(
                                         errorText: _validate
-                                            ? 'Le montant doit etre superieur a 100'
+                                            ? 'Le montant doit etre superieur a 100 FCFA'
                                             : null,
                                         floatingLabelBehavior:
-                                            FloatingLabelBehavior.never,
+                                            FloatingLabelBehavior.auto,
                                         floatingLabelStyle: TextStyle(),
                                         floatingLabelAlignment:
                                             FloatingLabelAlignment.center,

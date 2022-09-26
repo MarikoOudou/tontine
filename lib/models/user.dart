@@ -56,6 +56,32 @@ class User {
     }
   }
 
+  Future<Map<String, dynamic>> getTransactionById(
+      dynamic id_transaction) async {
+    pathGetUser = "transaction/card/$id_transaction";
+    // return User.fromJsonMap(await serviceHttp.getReqHttp(pathGetUser));
+
+    http.Response response = await serviceHttp.getReqHttp(pathGetUser);
+
+    int code = response.statusCode;
+
+    print("ERREUR DE SERVEUR ${code}");
+
+    if (code != null && code >= 400) {
+      // Map<dynamic, dynamic?> body = jsonDecode(response.body);
+      print(jsonDecode(response.body));
+      return {
+        "reponse": false,
+        "message": "erreur du serveur",
+        "message_serveur": jsonDecode(response.body)['message']
+      };
+    } else {
+      Map<dynamic, dynamic?> body = jsonDecode(response.body);
+      print(body);
+      return {"data": body, "reponse": true, "code": code};
+    }
+  }
+
   Future<Map<String, dynamic>> historique() async {
     pathGetUser = "user/transactions";
     // return User.fromJsonMap(await serviceHttp.getReqHttp(pathGetUser));
@@ -79,20 +105,25 @@ class User {
   create() async {
     pathGetUser = "public/register";
     Map<dynamic, dynamic?> user = {
-      "username": username,
+      "username": "${nom}_${prenom}",
       "nom": nom,
       "prenom": prenom,
       "tel": tel,
       "password": password
     };
 
-    http.Response response = await serviceHttp.postReqHttp(user, pathGetUser);
+    http.Response response =
+        await serviceHttp.postReqHttpNotAuth(user, pathGetUser);
 
     int code = response.statusCode;
     print("ERREUR DE SERVEUR ${code}");
 
     if (code != null && code >= 400) {
-      return {"reponse": false, "message": "erreur du serveur"};
+      return {
+        "reponse": false,
+        "message": "erreur du serveur",
+        "responseServeur": jsonDecode(response.body)
+      };
     } else {
       Map<dynamic, dynamic?> body = jsonDecode(response.body);
 

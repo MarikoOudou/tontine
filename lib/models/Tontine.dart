@@ -157,8 +157,10 @@ class Tontine {
     };
     // Map<dynamic, dynamic?> response = await serviceHttp.postReqHttp(user, pathGetUser);
 
-    http.Response response =
-        await serviceHttp.postReqHttp(tontine, pathGetTontine);
+    http.Response response = await serviceHttp.postReqHttp(
+      tontine,
+      pathGetTontine,
+    );
 
     int code = response.statusCode;
     Map<dynamic, dynamic?> body = jsonDecode(response.body);

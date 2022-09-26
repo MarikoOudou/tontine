@@ -32,6 +32,8 @@ class _TransfertState extends State<Transfert> {
   bool create = false;
   bool loading = false;
 
+  // Map<String, dynamic> user = {};
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -44,7 +46,8 @@ class _TransfertState extends State<Transfert> {
 
     // user = User.fromJsonMap(jsonDecode(widget.user.toString()));
     tel = jsonDecode(widget.user)['tel'];
-    // print(user);
+    user = User.fromJsonMap(jsonDecode(widget.user));
+    // print(user.nom);
 
     // tel = widget.user;
     return loading
@@ -87,7 +90,8 @@ class _TransfertState extends State<Transfert> {
                       // page: Home(),
                       size: size,
                       errorResp: 0,
-                      textValidate: "VOTRE TRANSFERT A ETE EFFECTUER",
+                      textValidate:
+                          "VOTRE TRANSFERT a été effectué".toUpperCase(),
                       loading: false,
                     ),
                   ))
@@ -116,8 +120,8 @@ class _TransfertState extends State<Transfert> {
                                     width: 50,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(50),
-                                      color:
-                                          ColorTheme.primaryColorBlue.shade200,
+                                      color: ColorTheme
+                                          .primaryColorYellow.shade300,
                                       boxShadow: [
                                         BoxShadow(
                                             color: ColorTheme.primaryColorBlue,
@@ -128,7 +132,7 @@ class _TransfertState extends State<Transfert> {
                                       padding: EdgeInsets.all(5),
                                       alignment: Alignment.center,
                                       child: Text(
-                                        tel!.substring(0, 2),
+                                        user.nom!.substring(0, 2),
                                         style: TextStyle(
                                             fontFamily: "Montserrat",
                                             fontSize: 15,
@@ -137,13 +141,15 @@ class _TransfertState extends State<Transfert> {
                                         textAlign: TextAlign.center,
                                       ),
                                     )),
-                                // title: Text("Abou Koné",
-                                //     style: TextStyle(
-                                //         fontFamily: "Montserrat",
-                                //         fontSize: 25,
-                                //         color: ColorTheme.primaryColorBlack,
-                                //         fontWeight: FontWeight.bold)),
-                                title: Text(tel,
+                                title: Text(
+                                    "${user.nom.toString()} ${user.prenom.toString()}"
+                                        .toUpperCase(),
+                                    style: TextStyle(
+                                        fontFamily: "Montserrat",
+                                        fontSize: 25,
+                                        color: ColorTheme.primaryColorBlack,
+                                        fontWeight: FontWeight.bold)),
+                                subtitle: Text(tel,
                                     style: TextStyle(
                                         fontFamily: "Montserrat",
                                         fontSize: 15,
@@ -158,10 +164,18 @@ class _TransfertState extends State<Transfert> {
                                 width: size.width,
                                 constraints: BoxConstraints(maxHeight: 100),
                                 child: TextField(
-                                  keyboardType: TextInputType.number,
+                                  keyboardType:
+                                      const TextInputType.numberWithOptions(
+                                          signed: true, decimal: true),
+                                  // controller: _montantcontroller,
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.digitsOnly,
+                                    FilteringTextInputFormatter.allow(
+                                        RegExp('[0-9.,]')),
+                                  ],
                                   onChanged: (value) {
                                     // value < 0 ? null : value;
-                                    if (double.parse(value) < 0) {
+                                    if (value.isEmpty) {
                                       return null;
                                     }
                                     setState(() {
@@ -263,7 +277,8 @@ class _TransfertState extends State<Transfert> {
                               ),
                             ],
                           ),
-                          Container(
+                          SizedBox(
+                            width: double.infinity,
                             child: ElevatedButton(
                                 onPressed: (() async {
                                   if (montant > 0) {
@@ -306,16 +321,6 @@ class _TransfertState extends State<Transfert> {
                                       color: ColorTheme.primaryColorWhite),
                                 ),
                                 style: ButtonStyle(
-                                    minimumSize:
-                                        MaterialStateProperty.all<Size>(Size(
-                                            size.width * 0.9,
-                                            (size.height - kToolbarHeight) *
-                                                0.07)),
-                                    maximumSize:
-                                        MaterialStateProperty.all<Size>(Size(
-                                            size.width * 0.9,
-                                            (size.height - kToolbarHeight) *
-                                                0.07)),
                                     backgroundColor:
                                         MaterialStateProperty.all<Color>(
                                             ColorTheme.primaryColorBlue),

@@ -56,6 +56,31 @@ class ServiceHttp {
     return action;
   }
 
+  postReqHttpNotAuth(dynamic body, String path) async {
+    //Pass headers below
+    if ((await getToken()) != null) {
+      authorization = await getToken();
+    } else {
+      print("PAS DE TOKEN =====================================");
+    }
+
+    // print(authorization);
+    String url = this.url + path;
+    print("DATA SEND                : ${body}");
+    print("DATA SEND IN JSON        : ${json.encode(body)}");
+    print("REQUETE DE TYPE POST URL : ${Uri.parse(url)}");
+
+    return await http.post(
+      Uri.parse(url),
+      body: json.encode(body),
+      headers: {
+        'Content-type': 'application/json',
+        'Accept': 'application/json'
+      },
+      // encoding: encoding
+    );
+  }
+
   postReqHttp(dynamic body, String path) async {
     //Pass headers below
     if ((await getToken()) != null) {

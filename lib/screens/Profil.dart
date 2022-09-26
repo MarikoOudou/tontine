@@ -309,178 +309,53 @@ class _ProfilState extends State<Profil> {
                 ],
               ),
             ),
-
-            Container(
-              margin: EdgeInsets.only(bottom: 10, top: 10),
-              height: 60,
-              padding: EdgeInsets.all(5),
-              width: size.width,
-              decoration: BoxDecoration(
-                color: ColorTheme.primaryColorBlue,
-                boxShadow: [
-                  BoxShadow(
-                    color: ColorTheme.primaryColorYellow.withOpacity(0.2),
-                    spreadRadius: 2,
-                    blurRadius: 4,
-                    offset: Offset(0, 1), // changes position of shadow
+            ElevatedButton(
+              onPressed: (() {
+                informationApp(context, size);
+              }),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text("Informations Nécessaires",
+                      style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: ColorTheme.primaryColorWhite)),
+                  Icon(
+                    Icons.arrow_right_alt_outlined,
+                    color: ColorTheme.primaryColorWhite,
                   ),
                 ],
-                // color: Colors.white,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: ListTile(
-                onTap: (() {
-                  informationApp(context, size);
-                }),
-                title: Text("Informations Nécessaires",
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: ColorTheme.primaryColorWhite)),
-                trailing: Container(
-                  child: IconButton(
-                      onPressed: (() {}),
-                      icon: Icon(
-                        Icons.arrow_right_alt_outlined,
-                        color: ColorTheme.primaryColorWhite,
-                      )),
-                ),
               ),
             ),
-
-            Container(
-              margin: EdgeInsets.only(bottom: 10, top: 10),
-              height: 60,
-              padding: EdgeInsets.all(5),
-              width: size.width,
-              decoration: BoxDecoration(
-                color: ColorTheme.primaryColorBlue,
-                boxShadow: [
-                  BoxShadow(
-                    color: ColorTheme.primaryColorYellow.withOpacity(0.2),
-                    spreadRadius: 2,
-                    blurRadius: 4,
-                    offset: Offset(0, 1), // changes position of shadow
-                  ),
-                ],
-                // color: Colors.white,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: ListTile(
-                onTap: (() {
-                  widget.user.deconnexion();
-                  Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            Login()), // this mymainpage is your page to refresh
-                    (Route<dynamic> route) => false,
-                  );
-                  // Navigator.push(context,
-                  //     MaterialPageRoute(builder: ((context) {
-                  //   return Login();
-                  // })));
-
-                  // FutureBuilder(
-                  //     future: widget.user.deconnexion(),
-                  //     builder: ((context, snapshot) {
-                  //       print(snapshot.data);
-                  //       if (snapshot.data == null) {
-                  //         ContenteValidation(
-                  //             size: size,
-                  //             textValidate: "VOUS ETES DECONNECTE",
-                  //             errorResp: 1,
-                  //             loading: true);
-                  //       }
-
-                  //       return Login();
-                  //     }));
-
-                  //  Navigator.pushAndRemoveUntil(
-                  //     context,
-                  //     MaterialPageRoute(
-                  //         builder: (context) =>
-                  //             Login()), // this mymainpage is your page to refresh
-                  //     (Route<dynamic> route) => false,
-                  //   );
-                }),
-                title: Text("Déconnexion",
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: ColorTheme.primaryColorWhite)),
-                trailing: Container(
-                  child: IconButton(
-                      onPressed: (() {}),
-                      icon: Icon(
-                        Icons.arrow_right_alt_outlined,
-                        color: ColorTheme.primaryColorWhite,
-                      )),
-                ),
-              ),
+            const SizedBox(
+              height: 2,
             ),
-
-            // Container(
-            //   margin: EdgeInsets.only(bottom: 10, top: 10),
-            //   height: 300,
-            //   padding: EdgeInsets.all(13),
-            //   width: size.width,
-            //   decoration: BoxDecoration(
-            //     color: ColorTheme.primaryColorBlue,
-            //     boxShadow: [
-            //       BoxShadow(
-            //         color: ColorTheme.primaryColorYellow.withOpacity(0.2),
-            //         spreadRadius: 2,
-            //         blurRadius: 4,
-            //         offset: Offset(0, 1), // changes position of shadow
-            //       ),
-            //     ],
-            //     // color: Colors.white,
-            //     borderRadius: BorderRadius.circular(10),
-            //   ),
-            //   child: Text(
-            //     "Nisi magna non ex incididunt consectetur veniam dolore.Do culpa laboris duis ipsum veniam et esse esse mollit Lorem nisi fugiat. Lorem mollit voluptate culpa officia in qui excepteur quis proident pariatur reprehenderit excepteur do veniam. Sit in veniam voluptate sit duis qui exercitation reprehenderit consectetur do. Et ut sit id consequat Lorem velit elit qui laborum quis anim. Laborum pariatur nisi deserunt in aute." +
-            //         "Veniam esse cillum culpa ullamco id sit. Consequat nisi laboris adipisicing adipisicing fugiat enim ipsum aliquip excepteur ex commodo nisi pariatur. Aute pariatur excepteur enim adipisicing do occaecat. Commodo et et est esse do dolore ad ad mollit laboris dolore nulla fugiat." +
-            //         "Dolore labore culpa proident duis laborum id ea magna sint incididunt aliqua occaecat. Aliqua aliquip ex id excepteur exercitation do ea dolore consectetur dolore excepteur eiusmod. Labore elit sit officia ipsum laboris.",
-            //     style: TextStyle(
-            //         fontSize: 18, color: ColorTheme.primaryColorWhite),
-            //   ),
-            // ),
-            // Container(
-            //   margin: EdgeInsets.only(bottom: 10, top: 10),
-            //   height: 60,
-            //   padding: EdgeInsets.all(5),
-            //   width: size.width,
-            //   decoration: BoxDecoration(
-            //     color: ColorTheme.primaryColorBlue,
-            //     boxShadow: [
-            //       BoxShadow(
-            //         color: ColorTheme.primaryColorYellow.withOpacity(0.2),
-            //         spreadRadius: 2,
-            //         blurRadius: 4,
-            //         offset: Offset(0, 1), // changes position of shadow
-            //       ),
-            //     ],
-            //     // color: Colors.white,
-            //     borderRadius: BorderRadius.circular(10),
-            //   ),
-            //   child: ListTile(
-            //     onTap: (() {}),
-            //     title: Text("data",
-            //         style: TextStyle(
-            //             fontSize: 16,
-            //             fontWeight: FontWeight.bold,
-            //             color: ColorTheme.primaryColorWhite)),
-            //     trailing: Container(
-            //       child: IconButton(
-            //           onPressed: (() {}),
-            //           icon: Icon(
-            //             Icons.arrow_right_alt_outlined,
-            //             color: ColorTheme.primaryColorWhite,
-            //           )),
-            //     ),
-            //   ),
-            // ),
+            ElevatedButton(
+              onPressed: (() {
+                widget.user.deconnexion();
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          Login()), // this mymainpage is your page to refresh
+                  (Route<dynamic> route) => false,
+                );
+              }),
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text("Déconnexion",
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: ColorTheme.primaryColorWhite)),
+                    Icon(
+                      Icons.arrow_right_alt_outlined,
+                      color: ColorTheme.primaryColorWhite,
+                    ),
+                  ]),
+            ),
           ],
         ),
       ),

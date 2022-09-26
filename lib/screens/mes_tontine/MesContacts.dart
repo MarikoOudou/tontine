@@ -71,6 +71,8 @@ class _MesContactsState extends State<MesContacts> {
             if (snapshot.data == null) {
               return CircularProgressIndicator();
             }
+            print(
+                "CREATEUR DE LA TONTINE .................................. : ${telUser}");
 
             return SingleChildScrollView(
               child: Container(
@@ -105,129 +107,145 @@ class _MesContactsState extends State<MesContacts> {
                             "${tontine["user"]["nom"]} ${tontine["user"]["prenom"]}",
                             style: textStyleTitle,
                           ),
-                          // subtitle: Text( "${tontine["user"]["periodicite"]}",
-                          //   style: textStyleSub,
-                          // ),
+                          subtitle: telUser == tontine["user"]["tel"]
+                              ? Text(
+                                  "Créateur de la tontine",
+                                  style: TextStyle(
+                                      color: ColorTheme.primaryColorWhite),
+                                )
+                              : Text(
+                                  "Participant",
+                                  style: TextStyle(
+                                      color: ColorTheme.primaryColorYellow),
+                                ),
+                          trailing: IconButton(
+                              enableFeedback: telUser != tontine["user"]["tel"],
+                              onPressed: telUser == tontine["user"]["tel"]
+                                  ? null
+                                  : (() {
+                                      if (telUser == widget.tontine.createdBy) {
+                                        setState(() {
+                                          dataMember["tontine"] =
+                                              widget.tontine.id;
+                                          dataMember["tel"] =
+                                              tontine["user"]["tel"];
+                                        });
 
-                          trailing: Container(
-                            // child: Text(
-                            //   "${tontine["user"]["solde"]} FCFA",
-                            //   style: textStyleTrailling,
-                            // ),
+                                        showDialog<String>(
+                                          context: context,
+                                          builder: (BuildContext context) =>
+                                              AlertDialog(
+                                            title: const Text(
+                                                "Suppression d'un membre"),
+                                            content: const Text(
+                                                'Vous voulez retiré cette personne'),
+                                            actions: <Widget>[
+                                              TextButton(
+                                                onPressed: () => Navigator.pop(
+                                                    context, 'Cancel'),
+                                                child: const Text('Non'),
+                                              ),
+                                              TextButton(
+                                                onPressed: () {
+                                                  // Navigator.pop(context, 'Cancel');
 
-                            child: IconButton(
-                                enableFeedback:
-                                    telUser == widget.tontine.createdBy,
-                                onPressed: (() {
-                                  if (telUser == widget.tontine.createdBy) {
-                                    setState(() {
-                                      dataMember["tontine"] = widget.tontine.id;
-                                      dataMember["tel"] =
-                                          tontine["user"]["tel"];
-                                    });
+                                                  showModalBottomSheet(
+                                                      backgroundColor:
+                                                          ColorTheme
+                                                              .primaryColorBlue,
+                                                      context: context,
+                                                      isDismissible: false,
+                                                      enableDrag: false,
+                                                      shape:
+                                                          const RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .vertical(
+                                                          top: Radius.circular(
+                                                              30.0),
+                                                        ),
+                                                      ),
+                                                      builder: (context) {
+                                                        return FutureBuilder(
+                                                            future:
+                                                                RemoveMember({
+                                                              "tontine":
+                                                                  dataMember[
+                                                                      "tontine"],
+                                                              "tel": dataMember[
+                                                                  "tel"]
+                                                            }),
+                                                            builder: ((context,
+                                                                snapshot) {
+                                                              print(snapshot
+                                                                  .data);
+                                                              dynamic cotise =
+                                                                  snapshot.data;
 
-                                    showDialog<String>(
-                                      context: context,
-                                      builder: (BuildContext context) =>
-                                          AlertDialog(
-                                        title: const Text(
-                                            "Suppression d'un membre"),
-                                        content: const Text(
-                                            'Vous voulez retiré cette personne'),
-                                        actions: <Widget>[
-                                          TextButton(
-                                            onPressed: () => Navigator.pop(
-                                                context, 'Cancel'),
-                                            child: const Text('Non'),
+                                                              if (cotise ==
+                                                                  null) {
+                                                                return ContenteValidation(
+                                                                  textBoutton:
+                                                                      "RETOUR",
+                                                                  page: MesContacts(
+                                                                      tontine:
+                                                                          widget
+                                                                              .tontine),
+                                                                  size: size,
+                                                                  errorResp: 1,
+                                                                  textValidate:
+                                                                      "",
+                                                                  loading: true,
+                                                                );
+                                                              } else if (cotise[
+                                                                      'code'] >=
+                                                                  400) {
+                                                                ContenteValidation(
+                                                                  textBoutton:
+                                                                      "RETOUR",
+                                                                  page:
+                                                                      MesTontine(),
+                                                                  size: size,
+                                                                  errorResp: 1,
+                                                                  textValidate:
+                                                                      "ERREUR",
+                                                                  loading:
+                                                                      false,
+                                                                );
+                                                              }
+
+                                                              return ContenteValidation(
+                                                                textBoutton:
+                                                                    "RETOUR",
+                                                                page:
+                                                                    MesTontine(),
+                                                                size: size,
+                                                                errorResp: 0,
+                                                                textValidate:
+                                                                    "",
+                                                                loading: false,
+                                                              );
+                                                            }));
+                                                      });
+                                                },
+                                                child: const Text('Oui'),
+                                              ),
+                                            ],
                                           ),
-                                          TextButton(
-                                            onPressed: () {
-                                              // Navigator.pop(context, 'Cancel');
-
-                                              showModalBottomSheet(
-                                                  backgroundColor: ColorTheme
-                                                      .primaryColorBlue,
-                                                  context: context,
-                                                  isDismissible: false,
-                                                  enableDrag: false,
-                                                  shape:
-                                                      const RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.vertical(
-                                                      top:
-                                                          Radius.circular(30.0),
-                                                    ),
-                                                  ),
-                                                  builder: (context) {
-                                                    return FutureBuilder(
-                                                        future: RemoveMember({
-                                                          "tontine": dataMember[
-                                                              "tontine"],
-                                                          "tel":
-                                                              dataMember["tel"]
-                                                        }),
-                                                        builder: ((context,
-                                                            snapshot) {
-                                                          print(snapshot.data);
-                                                          dynamic cotise =
-                                                              snapshot.data;
-
-                                                          if (cotise == null) {
-                                                            return ContenteValidation(
-                                                              textBoutton:
-                                                                  "RETOUR",
-                                                              page: MesContacts(
-                                                                  tontine: widget
-                                                                      .tontine),
-                                                              size: size,
-                                                              errorResp: 1,
-                                                              textValidate: "",
-                                                              loading: true,
-                                                            );
-                                                          } else if (cotise[
-                                                                  'code'] >=
-                                                              400) {
-                                                            ContenteValidation(
-                                                              textBoutton:
-                                                                  "RETOUR",
-                                                              page:
-                                                                  MesTontine(),
-                                                              size: size,
-                                                              errorResp: 1,
-                                                              textValidate:
-                                                                  "ERREUR",
-                                                              loading: false,
-                                                            );
-                                                          }
-
-                                                          return ContenteValidation(
-                                                            textBoutton:
-                                                                "RETOUR",
-                                                            page: MesTontine(),
-                                                            size: size,
-                                                            errorResp: 0,
-                                                            textValidate: "",
-                                                            loading: false,
-                                                          );
-                                                        }));
-                                                  });
-                                            },
-                                            child: const Text('Oui'),
-                                          ),
-                                        ],
-                                      ),
-                                    );
-                                  } else {
-                                    return null;
-                                  }
-                                }),
-                                icon: Icon(
-                                  Icons.delete,
-                                  color: telUser == widget.tontine.createdBy
-                                      ? Colors.red
-                                      : Colors.grey,
-                                )),
-                          ),
+                                        );
+                                      } else {
+                                        return null;
+                                      }
+                                    }),
+                              icon: telUser != tontine["user"]["tel"]
+                                  ? Icon(
+                                      Icons.delete,
+                                      color: Colors.red,
+                                    )
+                                  : Icon(
+                                      Icons.delete,
+                                      color: Colors.grey,
+                                    )),
                         ),
                       );
                     }),

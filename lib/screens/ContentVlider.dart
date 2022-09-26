@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:tontino/models/MomoService.dart';
 import 'package:tontino/models/Tontine.dart';
 import 'package:tontino/screens/home.dart';
 import 'package:tontino/services/Colors.dart';
@@ -12,6 +13,7 @@ class ContenteValidation extends StatefulWidget {
     required this.errorResp,
     required this.textBoutton,
     this.page,
+    this.fonctionValue,
     required this.loading,
   }) : super(key: key);
 
@@ -23,6 +25,7 @@ class ContenteValidation extends StatefulWidget {
   final Widget? page;
   final int errorResp; // 0: felicitation, 1: error
   final bool loading;
+  final int? fonctionValue; // 1: validation transation momo
 
   @override
   State<ContenteValidation> createState() => _ContenteValidationState();
@@ -35,6 +38,8 @@ class _ContenteValidationState extends State<ContenteValidation> {
   Widget pageRetour(Widget page) {
     return page;
   }
+
+  MomoService momoService = MomoService();
 
   @override
   Widget build(BuildContext context) {
@@ -102,10 +107,25 @@ class _ContenteValidationState extends State<ContenteValidation> {
                   ],
                 ),
                 ElevatedButton(
-                    onPressed: (() {
+                    onPressed: (() async {
                       if (widget.page == null) {
                         Navigator.pop(context);
+                        print(widget.fonctionValue);
+                        if (widget.fonctionValue == 0) {
+                          await Future.delayed(const Duration(seconds: 15));
+                          dynamic valider =
+                              await momoService.validerTransaction();
+                          print("FONCTION DE VALIDATION .... $valider");
+                        }
                       } else {
+                        print(widget.fonctionValue);
+                        if (widget.fonctionValue == 0) {
+                          await Future.delayed(const Duration(seconds: 15));
+                          dynamic valider =
+                              await momoService.validerTransaction();
+                          print("FONCTION DE VALIDATION .... $valider");
+                        }
+
                         Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
