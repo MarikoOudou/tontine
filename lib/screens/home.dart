@@ -715,8 +715,9 @@ class _HomeState extends State<Home> {
             floatingActionButton: FloatingActionButton(
               onPressed: () {
                 Navigator.push(context, MaterialPageRoute(builder: ((context) {
-                  return const ScreenQrcode(
+                  return ScreenQrcode(
                     typeScanner: 0,
+                    userInfo: userData,
                   );
                 })));
               },

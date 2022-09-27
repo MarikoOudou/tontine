@@ -62,6 +62,9 @@ class _MyAppState extends State<MyApp> {
               return Login();
             }
 
+            String tel =
+                "{\"id\":2,\"username\":null,\"nom\":\"Mariko\",\"prenom\":\"Oudou\",\"tel\":\"0757351113\",\"password\":null}";
+
             return Home();
           })),
     );

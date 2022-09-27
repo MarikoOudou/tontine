@@ -13,11 +13,12 @@ import 'package:tontino/screens/transfert/transfert.dart';
 import 'package:tontino/services/Colors.dart';
 
 class ScreenQrcode extends StatefulWidget {
-  const ScreenQrcode({Key? key, this.typeScanner, this.idTontine})
+  const ScreenQrcode({Key? key, this.typeScanner, this.idTontine, this.userInfo})
       : super(key: key);
 
   final int? typeScanner; // 0: transfert, 1:intergrer tontine
   final int? idTontine;
+  final User? userInfo;
 
   @override
   _ScreenQrcodeState createState() => _ScreenQrcodeState();
@@ -208,7 +209,7 @@ class _ScreenQrcodeState extends State<ScreenQrcode> {
               context,
               MaterialPageRoute(
                   builder: ((context) =>
-                      Transfert(user: jsonDecode(dataScanner)))));
+                      Transfert(tel: jsonDecode(dataScanner), user: widget.userInfo,))));
         } else if (tel != null &&
             widget.typeScanner == 1 &&
             widget.idTontine != null) {

@@ -8,9 +8,10 @@ import 'package:tontino/screens/home.dart';
 import 'package:tontino/services/Colors.dart';
 
 class Transfert extends StatefulWidget {
-  const Transfert({Key? key, required this.user}) : super(key: key);
+  const Transfert({Key? key, required this.tel, this.user}) : super(key: key);
 
-  final String user;
+  final String tel;
+  final User? user;
 
   @override
   _TransfertState createState() => _TransfertState();
@@ -42,11 +43,11 @@ class _TransfertState extends State<Transfert> {
     // jsonEncode(object)
     // jsonDecode(source)
     print("String ${widget.user.toString()}");
-    print("jsonDecode ${jsonDecode(widget.user)['tel']}");
+    print("jsonDecode ${jsonDecode(widget.tel)['tel']}");
 
     // user = User.fromJsonMap(jsonDecode(widget.user.toString()));
-    tel = jsonDecode(widget.user)['tel'];
-    user = User.fromJsonMap(jsonDecode(widget.user));
+    tel = jsonDecode(widget.tel)['tel'];
+    user = widget.user!;
     // print(user.nom);
 
     // tel = widget.user;
