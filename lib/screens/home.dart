@@ -58,7 +58,9 @@ class _HomeState extends State<Home> {
     print("historique info  ${historiques}");
 
     if (userget["reponse"]) {
-      user = userget["data"];
+      setState(() {
+        user = userget["data"];
+      });
 
       tokenExp = true;
 
@@ -653,21 +655,28 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    return BlocBuilder<AppCubit, AppState>(
-      builder: (context, state) {
-        if (state is AppError) {
-          print("error $state");
-          Navigator.pushNamedAndRemoveUntil(
-              context, "/login", (route) => false);
-        }
-
+    return BlocConsumer<AppCubit, AppState>(
+      listener: ((context, state) {
         if (state is AppHistorique) {
           print("------------------- ${state.historique}");
-          historiques = state.historique;
+          setState(() {
+            historiques = state.historique;
+          });
         }
 
         if (state is AppUserInfo) {
-          user = state.user;
+          setState(() {
+            userData = state.user;
+            user = state.user;
+          });
+        }
+      }),
+      builder: (context, state) {
+        if (state is AppError) {
+          print("error $state");
+          ServiceHttp().cleanToken();
+          Navigator.pushNamedAndRemoveUntil(
+              context, "/login", (route) => false);
         }
 
         if (state is AppLoading) {

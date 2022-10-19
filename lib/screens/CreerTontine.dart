@@ -407,72 +407,73 @@ class _CreerTontineState extends State<CreerTontine> {
                           SizedBox(
                             height: 25,
                           ),
-                          Container(
-                            alignment: Alignment.topLeft,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Types",
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontFamily: "RobotoMono",
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                Container(
-                                  child: Divider(
-                                    thickness: 1,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Container(
-                              height: 50,
-                              width: size.width,
-                              child: ListView.builder(
-                                scrollDirection: Axis.horizontal,
-                                itemCount: types.length,
-                                itemBuilder: ((context, index) {
-                                  Map<String, dynamic> type = types[index];
-                                  return Card(
-                                    color: valeurType == type["id"]
-                                        ? ColorTheme.primaryColorYellow.shade400
-                                        : ColorTheme.primaryColorBlue.shade400,
-                                    child: InkWell(
-                                      onTap: (() {
-                                        setState(() {
-                                          valeurType = type["id"];
-                                          dataToSend["type"] = type["id"];
-                                        });
-                                      }),
-                                      child: Container(
-                                        width: size.width * 0.4,
-                                        alignment: Alignment.center,
-                                        padding: EdgeInsets.all(5),
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                              "${type['value']}",
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  color: ColorTheme
-                                                      .primaryColorWhite),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  );
-                                }),
-                              )),
+
+                          // Container(
+                          //   alignment: Alignment.topLeft,
+                          //   child: Column(
+                          //     mainAxisAlignment: MainAxisAlignment.start,
+                          //     crossAxisAlignment: CrossAxisAlignment.start,
+                          //     children: [
+                          //       Text(
+                          //         "Types",
+                          //         style: TextStyle(
+                          //             color: Colors.white,
+                          //             fontFamily: "RobotoMono",
+                          //             fontSize: 18,
+                          //             fontWeight: FontWeight.bold),
+                          //       ),
+                          //       Container(
+                          //         child: Divider(
+                          //           thickness: 1,
+                          //           color: Colors.white,
+                          //         ),
+                          //       ),
+                          //     ],
+                          //   ),
+                          // ),
+                          // Container(
+                          //     height: 50,
+                          //     width: size.width,
+                          //     child: ListView.builder(
+                          //       scrollDirection: Axis.horizontal,
+                          //       itemCount: types.length,
+                          //       itemBuilder: ((context, index) {
+                          //         Map<String, dynamic> type = types[index];
+                          //         return Card(
+                          //           color: valeurType == type["id"]
+                          //               ? ColorTheme.primaryColorYellow.shade400
+                          //               : ColorTheme.primaryColorBlue.shade400,
+                          //           child: InkWell(
+                          //             onTap: (() {
+                          //               setState(() {
+                          //                 valeurType = type["id"];
+                          //                 dataToSend["type"] = type["id"];
+                          //               });
+                          //             }),
+                          //             child: Container(
+                          //               width: size.width * 0.4,
+                          //               alignment: Alignment.center,
+                          //               padding: EdgeInsets.all(5),
+                          //               child: Column(
+                          //                 mainAxisAlignment:
+                          //                     MainAxisAlignment.center,
+                          //                 crossAxisAlignment:
+                          //                     CrossAxisAlignment.center,
+                          //                 children: [
+                          //                   Text(
+                          //                     "${type['value']}",
+                          //                     style: TextStyle(
+                          //                         fontWeight: FontWeight.bold,
+                          //                         color: ColorTheme
+                          //                             .primaryColorWhite),
+                          //                   ),
+                          //                 ],
+                          //               ),
+                          //             ),
+                          //           ),
+                          //         );
+                          //       }),
+                          //     )),
                         ],
                       ),
                       Container(

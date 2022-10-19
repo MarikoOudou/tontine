@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:tontino/logic/cubit/app_cubit.dart';
+import 'package:tontino/logic/cubit/service_momo_cubit.dart';
 import 'package:tontino/models/MomoService.dart';
 import 'package:tontino/screens/ContentVlider.dart';
 import 'package:tontino/services/Colors.dart';
@@ -31,7 +32,7 @@ class _ScreenDepotState extends State<ScreenDepot> {
 
   sendMoney(int montantEnvoyer, BuildContext context) {
     if (montantEnvoyer > 0) {
-      BlocProvider.of<AppCubit>(context).rechargement(montantEnvoyer);
+      BlocProvider.of<ServiceMomoCubit>(context).rechargement(montantEnvoyer);
 
       // setState(() {
       //   loading = true;
@@ -70,10 +71,10 @@ class _ScreenDepotState extends State<ScreenDepot> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     tel = widget.tel;
-    return BlocConsumer<AppCubit, AppState>(
+    return BlocConsumer<ServiceMomoCubit, ServiceMomoState>(
       listener: (appStateContext, state) {
         // TODO: implement listener
-        if (state is AppError) {
+        if (state is ServiceMomoError) {
           // Find the ScaffoldMessenger in the widget tree
           // and use it to show a SnackBar.
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -88,7 +89,7 @@ class _ScreenDepotState extends State<ScreenDepot> {
         }
       },
       builder: (appStateContext, state) {
-        if (state is AppLoading) {
+        if (state is ServiceMomoLoading) {
           print("Loading sate");
 
           return SingleChildScrollView(
@@ -106,7 +107,7 @@ class _ScreenDepotState extends State<ScreenDepot> {
           ));
         }
 
-        if (state is AppDepot) {
+        if (state is ServiceMomoSuccess) {
           return SingleChildScrollView(
               child: Container(
             height: size.height,
@@ -117,7 +118,8 @@ class _ScreenDepotState extends State<ScreenDepot> {
               size: size,
               errorResp: 0,
               fonctionValue: 0,
-              textValidate: "VOTRE TRANSACTION EST EN ATTEND DE VALIDATION",
+              textValidate:
+                  "Votre transaction est en cours de traitement".toUpperCase(),
               loading: false,
             ),
           ));
