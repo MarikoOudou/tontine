@@ -44,13 +44,20 @@ dependencies:
   grouped_list: ^5.1.2
   intl: ^0.17.0
   loading_animation_widget: ^1.2.0+3
-  fluttertoast: ^8.0.9
+  # fluttertoast: ^8.0.9
   flutter_widget_from_html: ^0.8.5
   http_interceptor: ^1.0.2
   
   flutter_bloc: ^8.1.1
   connectivity_plus: ^2.3.9
   equatable: ^2.0.5
+  universal_html: ^2.0.8
+  flutter_client_sse: ^1.0.0
+
+client_sse:
+  git:
+    url: https://github.com/pratikbaid3/flutter_client_sse
+    path:
 
 flutter_icons:
   android: true

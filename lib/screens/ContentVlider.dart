@@ -112,7 +112,7 @@ class _ContenteValidationState extends State<ContenteValidation> {
                         Navigator.pop(context);
                         print(widget.fonctionValue);
                         if (widget.fonctionValue == 0) {
-                          await Future.delayed(const Duration(seconds: 15));
+                          await Future.delayed(const Duration(seconds: 5));
                           dynamic valider =
                               await momoService.validerTransaction();
                           print("FONCTION DE VALIDATION .... $valider");
@@ -120,7 +120,7 @@ class _ContenteValidationState extends State<ContenteValidation> {
                       } else {
                         print(widget.fonctionValue);
                         if (widget.fonctionValue == 0) {
-                          await Future.delayed(const Duration(seconds: 15));
+                          await Future.delayed(const Duration(seconds: 5));
                           dynamic valider =
                               await momoService.validerTransaction();
                           print("FONCTION DE VALIDATION .... $valider");

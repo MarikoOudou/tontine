@@ -47,6 +47,10 @@ class AppCubit extends Cubit<AppState> {
   getInfoUser() async {
     if (await ServiceHttp().getToken() != null) {
       emit(AppLoading());
+
+      print("EMITION-----------------------------------------------------");
+      print("EMITION-----------------------------------------------------");
+      print("EMITION-----------------------------------------------------");
       _userRepositorie.getUser().then((value) {
         if (value["code"] != 200) {
           emit(AppError());

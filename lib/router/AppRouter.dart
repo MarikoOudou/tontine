@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tontino/logic/cubit/app_cubit.dart';
+import 'package:tontino/logic/cubit/service_momo_cubit.dart';
 import 'package:tontino/logic/cubit/tontine_cubit.dart';
 import 'package:tontino/screens/CreerTontine.dart';
 import 'package:tontino/screens/home.dart';
@@ -50,11 +51,17 @@ class AppRouter {
       //           );
       //         })));
 
+      case '/login':
+        final args = settings.arguments as String;
+        return MaterialPageRoute(
+            builder: (_) =>
+                BlocProvider(create: (__) => AppCubit(), child: Login()));
+
       case '/depot':
         final args = settings.arguments as String;
         return MaterialPageRoute(
             builder: (_) => BlocProvider(
-                  create: (__) => AppCubit(),
+                  create: (__) => ServiceMomoCubit(),
                   child: ScreenDepot(
                     tel: args,
                   ),

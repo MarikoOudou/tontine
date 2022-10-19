@@ -68,23 +68,35 @@ class Tontine {
         "type": type
       };
 
-  Future<Map<String, dynamic>> mesTontine() async {
+  Future<ModelReponse> mesTontine() async {
     pathGetTontine = "tontine/my-tontines";
     // return User.fromJsonMap(await serviceHttp.getReqHttp(pathGetUser));
 
     http.Response response = await serviceHttp.getReqHttp(pathGetTontine);
 
     int code = response.statusCode;
+    List<dynamic> body = jsonDecode(response.body);
 
     print("ERREUR DE SERVEUR ${code}");
 
     if (code != null && code >= 400) {
-      return {"reponse": false, "message": "erreur du serveur"};
+      return ModelReponse(
+        reponse: true,
+        message: "ERREUR SERVEUR",
+        code: code,
+        body: body,
+        data: body,
+      );
     } else {
       dynamic body = jsonDecode(response.body);
 
-      print(body);
-      return {"data": body, "reponse": true};
+      return ModelReponse(
+        reponse: true,
+        message: "LIST TONTINE",
+        code: code,
+        body: body,
+        data: body,
+      );
     }
   }
 
@@ -232,15 +244,15 @@ class Tontine {
     print("REPONSE DE SERVEUR ${response.body}");
 
     Map<dynamic, dynamic?> body = jsonDecode(response.body);
-    if (body["code"] == null) {
-      return {
-        "data": body,
-        "reponse": true,
-        "code": code,
-        "access": true,
-        "message": "VOUS AVEZ AJOUTER UN MEMBRE A VOTRE TONTINE"
-      };
-    }
+    // if (body["code"] == null) {
+    //   return {
+    //     "data": body,
+    //     "reponse": true,
+    //     "code": code,
+    //     "access": true,
+    //     "message": "VOUS AVEZ AJOUTER UN MEMBRE A VOTRE TONTINE"
+    //   };
+    // }
 
     if (code != null && code >= 400) {
       return {"reponse": true, "message": "erreur du serveur", "code": code};

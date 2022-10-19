@@ -25,6 +25,18 @@ class TontineCubit extends Cubit<TontineState> {
       }
     });
   }
+
+  getTontines() {
+    emit(TontineLoading());
+
+    _tontineRepositorie.mesTontine().then((value) {
+      if (value.code >= 400) {
+        emit(TontineError());
+      } else if (value.code == 200 || value.code == 201) {
+        emit(TontineCreate(dataInfo: value));
+      }
+    });
+  }
 }
 
 class RegisterModelTontine {

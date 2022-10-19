@@ -40,14 +40,14 @@ class _MesTontineState extends State<MesTontine> {
   bool loading = true;
 
   loadingMyTontine() async {
-    dynamic tontine = await tontines.mesTontine();
+    ModelReponse tontine = await tontines.mesTontine();
 
-    print("tontine info  ${tontine['data']}");
+    print("tontine info  ${tontine.data}");
 
     listTontine = [];
 
-    if (tontine["reponse"]) {
-      (tontine['data'] as List).forEach((ton) {
+    if (tontine.reponse) {
+      (tontine.data as List).forEach((ton) {
         print(ton["id"]);
         listTontine.add(Tontine.fromJsonMap({
           "id": ton["id"],
