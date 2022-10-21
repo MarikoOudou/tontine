@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
+import 'package:tontino/logic/cubit/app_cubit.dart';
 import 'package:tontino/models/user.dart';
 import 'package:tontino/screens/CodeQr.dart';
 import 'package:tontino/screens/ContentVlider.dart';
@@ -256,104 +258,123 @@ class _ProfilState extends State<Profil> {
     print(widget.user.id);
 
     Size size = MediaQuery.of(context).size;
-    return SingleChildScrollView(
-      child: Container(
-        padding: EdgeInsets.all(15),
-        child: Column(
-          children: [
-            Container(
-              margin: EdgeInsets.only(bottom: 10),
-              height: 220,
-              padding: EdgeInsets.all(10),
-              width: size.width,
-              decoration: BoxDecoration(
-                color: Colors.transparent,
-                boxShadow: [
-                  BoxShadow(
-                    color: ColorTheme.primaryColorYellow.withOpacity(0.2),
-                    spreadRadius: 2,
-                    blurRadius: 4,
-                    offset: Offset(0, 1), // changes position of shadow
+    return BlocConsumer<AppCubit, AppState>(
+      listener: (appStatecontext, state) {
+        // TODO: implement listener
+
+        if (state is AppError) {}
+
+        if (state is AppDeconnexion) {
+          Navigator.pushNamedAndRemoveUntil(context, "/", (route) => false);
+        }
+      },
+      builder: (context, state) {
+        if (state is AppLoading) {
+          return Container(
+            child: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
+        }
+
+        return SingleChildScrollView(
+          child: Container(
+            padding: EdgeInsets.all(15),
+            child: Column(
+              children: [
+                Container(
+                  margin: EdgeInsets.only(bottom: 10),
+                  height: 220,
+                  padding: EdgeInsets.all(10),
+                  width: size.width,
+                  decoration: BoxDecoration(
+                    color: Colors.transparent,
+                    boxShadow: [
+                      BoxShadow(
+                        color: ColorTheme.primaryColorYellow.withOpacity(0.2),
+                        spreadRadius: 2,
+                        blurRadius: 4,
+                        offset: Offset(0, 1), // changes position of shadow
+                      ),
+                    ],
+                    // color: Colors.white,
+                    borderRadius: BorderRadius.circular(15),
                   ),
-                ],
-                // color: Colors.white,
-                borderRadius: BorderRadius.circular(15),
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.max,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  InkWell(
-                    onTap: (() {
-                      // getCODEQR(context, size, "Home");
-                    }),
-                    child: Container(
-                        clipBehavior: Clip.hardEdge,
-                        height: 100,
-                        width: 100,
-                        padding: EdgeInsets.all(10),
-                        margin: EdgeInsets.only(bottom: 10),
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: ColorTheme.primaryColorYellow),
-                        child: Image.asset("assets/images/user.png")),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.max,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      InkWell(
+                        onTap: (() {
+                          // getCODEQR(context, size, "Home");
+                        }),
+                        child: Container(
+                            clipBehavior: Clip.hardEdge,
+                            height: 100,
+                            width: 100,
+                            padding: EdgeInsets.all(10),
+                            margin: EdgeInsets.only(bottom: 10),
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: ColorTheme.primaryColorYellow),
+                            child: Image.asset("assets/images/user.png")),
+                      ),
+                      Container(
+                          alignment: Alignment.center,
+                          child: Text(
+                            "${widget.user.nom.toString()} ${widget.user.prenom.toString()}",
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold),
+                          ))
+                    ],
                   ),
-                  Container(
-                      alignment: Alignment.center,
-                      child: Text(
-                        "${widget.user.nom.toString()} ${widget.user.prenom.toString()}",
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
-                      ))
-                ],
-              ),
-            ),
-            ElevatedButton(
-              onPressed: (() {
-                informationApp(context, size);
-              }),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text("Informations Nécessaires",
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: ColorTheme.primaryColorWhite)),
-                  Icon(
-                    Icons.arrow_right_alt_outlined,
-                    color: ColorTheme.primaryColorWhite,
+                ),
+                ElevatedButton(
+                  onPressed: (() {
+                    informationApp(context, size);
+                  }),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("Informations Nécessaires",
+                          style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: ColorTheme.primaryColorWhite)),
+                      Icon(
+                        Icons.arrow_right_alt_outlined,
+                        color: ColorTheme.primaryColorWhite,
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+                const SizedBox(
+                  height: 2,
+                ),
+                ElevatedButton(
+                  onPressed: (() {
+                    BlocProvider.of<AppCubit>(context).deconnexion();
+                  }),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text("Déconnexion",
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: ColorTheme.primaryColorWhite)),
+                        Icon(
+                          Icons.arrow_right_alt_outlined,
+                          color: ColorTheme.primaryColorWhite,
+                        ),
+                      ]),
+                ),
+              ],
             ),
-            const SizedBox(
-              height: 2,
-            ),
-            ElevatedButton(
-              onPressed: (() {
-                widget.user.deconnexion();
-                Navigator.pushNamedAndRemoveUntil(
-                    context, "/", (route) => false);
-              }),
-              child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text("Déconnexion",
-                        style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: ColorTheme.primaryColorWhite)),
-                    Icon(
-                      Icons.arrow_right_alt_outlined,
-                      color: ColorTheme.primaryColorWhite,
-                    ),
-                  ]),
-            ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }

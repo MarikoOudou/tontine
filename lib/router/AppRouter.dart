@@ -52,7 +52,7 @@ class AppRouter {
       //         })));
 
       case '/login':
-        final args = settings.arguments as String;
+        // final args = settings.arguments as String;
         return MaterialPageRoute(
             builder: (_) =>
                 BlocProvider(create: (__) => AppCubit(), child: Login()));

@@ -33,9 +33,21 @@ class ServiceHttp {
     prefs.setString('tel', tel);
   }
 
+  setUrlSse({url}) async {
+    print("SET URL SSE ========== ${url}");
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('sse_link', url);
+  }
+
   updateToken(String authorization) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('authorization', authorization);
+  }
+
+  getUrlSse() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final Object? action = prefs.get('sse_link');
+    return action;
   }
 
   getTel() async {
@@ -50,9 +62,24 @@ class ServiceHttp {
     return action;
   }
 
+  cleanAll() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    // final bool action1 = await prefs.remove('tel');
+    // final bool action2 = await prefs.remove('sse_link');
+    // final bool action3 = await prefs.remove('authorization');
+    final bool actionAll = await prefs.clear();
+    // ('authorization');
+    if (actionAll) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   cleanToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final Object action = await prefs.remove('authorization');
+    print("action $action");
     return action;
   }
 
