@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:tontino/models/Tontine.dart';
 import 'package:tontino/services/ServiceHttp.dart';
 
 import 'package:http/http.dart' as http;
@@ -10,11 +11,11 @@ class User {
   String? username;
   String? nom;
   String? prenom;
+  String? sse_link;
   String? slug;
   String? tel;
   double? solde;
   String? password;
-
   static String pathGetUser = "user";
   ServiceHttp serviceHttp = ServiceHttp();
 
@@ -22,6 +23,7 @@ class User {
     this.id,
     this.slug,
     this.username,
+    this.sse_link,
     this.nom,
     this.prenom,
     this.tel,
@@ -30,10 +32,10 @@ class User {
   });
 
   deconnexion() async {
-    return await serviceHttp.cleanToken();
+    return await serviceHttp.cleanAll();
   }
 
-  Future<Map<String, dynamic>> getUser() async {
+  Future<ModelReponse> getUser() async {
     pathGetUser = "user/infos";
     // return User.fromJsonMap(await serviceHttp.getReqHttp(pathGetUser));
 
@@ -46,17 +48,32 @@ class User {
     if (code != null && code >= 400) {
       // Map<dynamic, dynamic?> body = jsonDecode(response.body);
       // print(body);
-      return {"reponse": false, "message": "erreur du serveur"};
+      dynamic body = User.fromJsonMap(jsonDecode(response.body));
+
+      return ModelReponse(
+          message: "info user",
+          reponse: false,
+          code: code,
+          data: body,
+          body: body);
     } else {
       User _user = User();
 
       User body = User.fromJsonMap(jsonDecode(response.body));
 
+      // ServiceHttp().setUrlSse(url: body.sse_link);
+
       // User.j(map)
-      print(body);
+      print(body.id);
 
       serviceHttp.setTel(body.tel);
-      return {"data": body, "reponse": true, "code": code};
+
+      return ModelReponse(
+          message: "info user",
+          reponse: true,
+          code: code,
+          data: body,
+          body: body);
     }
   }
 
@@ -188,6 +205,7 @@ class User {
   User.fromJsonMap(Map<String, dynamic> map)
       : id = map["id"] as int,
         username = map["username"],
+        sse_link = map["sse_link"],
         nom = map["nom"],
         prenom = map["prenom"],
         slug = map["slug"],
@@ -198,6 +216,7 @@ class User {
   Map<String, dynamic> toJsonMap() => {
         "id": id,
         "username": username,
+        "sse_link": sse_link,
         "nom": nom,
         "prenom": prenom,
         "tel": tel,

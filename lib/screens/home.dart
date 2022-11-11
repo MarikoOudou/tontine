@@ -3,9 +3,12 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tontino/logic/cubit/app_cubit.dart';
+import 'package:tontino/main.dart';
+import 'package:tontino/models/Tontine.dart';
 import 'package:tontino/models/user.dart';
 import 'package:tontino/screens/CodeQr.dart';
 import 'package:tontino/screens/CreerTontine.dart';
@@ -21,6 +24,7 @@ import 'package:tontino/screens/momo_service/screen_retrait.dart';
 import 'package:tontino/screens/notification/notifications.dart';
 import 'package:tontino/services/Colors.dart';
 import 'package:tontino/services/ServiceHttp.dart';
+import 'package:tontino/services/notification_service.dart';
 import 'package:tontino/widgets/AppBarCustomClass.dart';
 
 class Home extends StatefulWidget {
@@ -52,22 +56,23 @@ class _HomeState extends State<Home> {
   }
 
   loadingUser() async {
-    Map<String, dynamic> userget = await user.getUser();
+    ModelReponse userget = await user.getUser();
     historiques = await user.historique();
     print("user info  ${userget}");
     print("historique info  ${historiques}");
 
-    if (userget["reponse"]) {
-      setState(() {
-        user = userget["data"];
-      });
+    if (userget.reponse) {
+      // setState(() {
+      //   user = userget.data;
+      // });
+      user = userget.data;
 
       tokenExp = true;
 
       return user;
 
       // loading = false;
-    } else if (userget["reponse"] == false) {
+    } else if (userget.reponse == false) {
       return false;
     } else {
       return null;
@@ -651,163 +656,265 @@ class _HomeState extends State<Home> {
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
       GlobalKey<RefreshIndicatorState>();
 
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    return BlocConsumer<AppCubit, AppState>(
-      listener: ((context, state) {
-        if (state is AppHistorique) {
-          print("------------------- ${state.historique}");
-          setState(() {
-            historiques = state.historique;
-          });
-        }
+    return
 
-        if (state is AppUserInfo) {
-          setState(() {
-            userData = state.user;
-            user = state.user;
-          });
-        }
-      }),
-      builder: (context, state) {
-        if (state is AppError) {
-          print("error $state");
-          ServiceHttp().cleanToken();
-          Navigator.pushNamedAndRemoveUntil(
-              context, "/login", (route) => false);
-        }
+        // BlocConsumer<AppCubit, AppState>(
+        //   listener: ((appStatecontext, state) {
+        //     print("------------------- ${state}");
 
-        if (state is AppLoading) {
-          return Container(
-            color: ColorTheme.primaryColorBlue,
-            child: Center(
-              child: LoadingAnimationWidget.staggeredDotsWave(
-                color: ColorTheme.primaryColorYellow,
-                size: 200,
-              ),
-            ),
-          );
-        }
+        //     if (state is AppHistorique) {
+        //       print("------------------- ${state.historique['data']}");
+        //       setState(() {
+        //         historiques = state.historique;
+        //       });
+        //     }
 
-        return Scaffold(
-          appBar: AppBarCustomClass().AppBarCustom(),
-          body: SizedBox(
-            height: size.height,
-            child: RefreshIndicator(
-              key: _refreshIndicatorKey,
-              color: ColorTheme.primaryColorBlue,
-              backgroundColor: ColorTheme.primaryColorYellow,
-              strokeWidth: 4.0,
-              onRefresh: () async {
-                userData = await loadingUser();
-                setState(() {});
-                return userData;
-              },
-              child: ListView(
-                children: [
-                  <Widget>[
-                    userData != null
-                        ? homePage(size, user)
-                        : const Center(
-                            child: Text("Erreur de chargement des données"),
-                          ),
-                    Profil(
-                      user: user,
+        //     if (state is AppUserInfo) {
+        //       setState(() {
+        //         userData = state.user;
+        //         user = state.user;
+        //       });
+        //     }
+        //   }),
+        //   builder: (appStatecontext, state) {
+        //     if (state is AppError) {
+        //       print("error $state");
+        //       ServiceHttp().cleanToken();
+        //       Navigator.pushNamedAndRemoveUntil(
+        //           context, "/login", (route) => false);
+        //     }
+
+        //     if (state is AppLoading) {
+        //       return Container(
+        //         color: ColorTheme.primaryColorBlue,
+        //         child: Center(
+        //           child: LoadingAnimationWidget.staggeredDotsWave(
+        //             color: ColorTheme.primaryColorYellow,
+        //             size: 200,
+        //           ),
+        //         ),
+        //       );
+        //     }
+
+        //     return Scaffold(
+        //       appBar: AppBarCustomClass().AppBarCustom(),
+        //       body: SizedBox(
+        //         height: size.height,
+        //         child: RefreshIndicator(
+        //           key: _refreshIndicatorKey,
+        //           color: ColorTheme.primaryColorBlue,
+        //           backgroundColor: ColorTheme.primaryColorYellow,
+        //           strokeWidth: 4.0,
+        //           onRefresh: () async {
+        //             userData = await loadingUser();
+        //             setState(() {});
+        //             return userData;
+        //           },
+        //           child: ListView(
+        //             children: [
+        //               <Widget>[
+        //                 userData != null
+        //                     ? homePage(size, user)
+        //                     : const Center(
+        //                         child: Text("Erreur de chargement des données"),
+        //                       ),
+        //                 Profil(
+        //                   user: user,
+        //                 ),
+        //               ].elementAt(_selectedIndex),
+        //             ],
+        //           ),
+        //         ),
+        //       ),
+        //       floatingActionButton: FloatingActionButton(
+        //         onPressed: () {
+        //           Navigator.push(context, MaterialPageRoute(builder: ((context) {
+        //             return ScreenQrcode(
+        //               typeScanner: 0,
+        //               userInfo: userData,
+        //             );
+        //           })));
+        //         },
+        //         backgroundColor: Colors.transparent,
+        //         child: Container(
+        //             height: 60,
+        //             width: 60,
+        //             decoration: BoxDecoration(
+        //               gradient: const LinearGradient(
+        //                 colors: [Color(0xff004f71), Color(0xffffc304)],
+        //                 begin: Alignment.bottomLeft,
+        //                 end: Alignment.topRight,
+        //               ),
+        //               boxShadow: [
+        //                 BoxShadow(
+        //                   color: ColorTheme.primaryColorYellow.withOpacity(0.2),
+        //                   spreadRadius: 2,
+        //                   blurRadius: 4,
+        //                   offset: const Offset(0, 1), // changes position of shadow
+        //                 ),
+        //               ],
+        //               borderRadius: BorderRadius.circular(40),
+        //             ),
+        //             child: const Icon(Icons.qr_code_scanner_sharp)),
+        //       ),
+        //       floatingActionButtonLocation:
+        //           FloatingActionButtonLocation.centerDocked,
+        //       bottomNavigationBar: BottomAppBar(
+        //         shape: const CircularNotchedRectangle(),
+        //         clipBehavior: Clip.antiAlias,
+        //         child: BottomNavigationBar(
+        //           items: const <BottomNavigationBarItem>[
+        //             BottomNavigationBarItem(
+        //               icon: Icon(Icons.home),
+        //               label: 'Home',
+        //             ),
+        //             BottomNavigationBarItem(
+        //               icon: Icon(Icons.person_outline_rounded),
+        //               label: 'Profil',
+        //             ),
+        //           ],
+        //           currentIndex: _selectedIndex,
+        //           selectedItemColor: ColorTheme.primaryColorYellow,
+        //           backgroundColor: ColorTheme.primaryColorBlue,
+        //           unselectedItemColor: ColorTheme.primaryColorWhite,
+        //           onTap: _onItemTapped,
+        //         ),
+        //       ),
+        //     );
+        //   },
+        // );
+
+        FutureBuilder(
+            future: loadingUser(),
+            builder: ((context, snapshot) {
+              userData = snapshot.data;
+
+              print("Information  ${userData}");
+
+              if (!snapshot.hasData) {
+                return Container(
+                  color: ColorTheme.primaryColorBlue,
+                  child: Center(
+                    child: LoadingAnimationWidget.staggeredDotsWave(
+                      color: ColorTheme.primaryColorYellow,
+                      size: 200,
                     ),
-                  ].elementAt(_selectedIndex),
-                ],
-              ),
-            ),
-          ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: ((context) {
-                return ScreenQrcode(
-                  typeScanner: 0,
-                  userInfo: userData,
-                );
-              })));
-            },
-            backgroundColor: Colors.transparent,
-            child: Container(
-                height: 60,
-                width: 60,
-                decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                    colors: [Color(0xff004f71), Color(0xffffc304)],
-                    begin: Alignment.bottomLeft,
-                    end: Alignment.topRight,
                   ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: ColorTheme.primaryColorYellow.withOpacity(0.2),
-                      spreadRadius: 2,
-                      blurRadius: 4,
-                      offset: const Offset(0, 1), // changes position of shadow
+                );
+              }
+
+              if (userData == false) {
+                ServiceHttp().cleanToken();
+                Navigator.pushNamedAndRemoveUntil(
+                    context, "/login", (route) => false);
+              }
+
+              // user.sse_link!.isNotEmpty
+              //     ? BlocProvider.of<AppCubit>(context).eventSse(user.sse_link)
+              //     : null;
+
+              // Noti.showBigTextNotification(
+              //     title: "New message title",
+              //     body: "Your long body",
+              //     fln: flutterLocalNotificationsPlugin);
+
+              return Scaffold(
+                appBar: AppBarCustomClass().AppBarCustom(),
+                body: SizedBox(
+                  height: size.height,
+                  child: RefreshIndicator(
+                    key: _refreshIndicatorKey,
+                    color: ColorTheme.primaryColorBlue,
+                    backgroundColor: ColorTheme.primaryColorYellow,
+                    strokeWidth: 4.0,
+                    onRefresh: () async {
+                      userData = await loadingUser();
+                      setState(() {});
+                      return userData;
+                    },
+                    child: ListView(
+                      children: [
+                        <Widget>[
+                          userData != null
+                              ? homePage(size, user)
+                              : const Center(
+                                  child:
+                                      Text("Erreur de chargement des données"),
+                                ),
+                          Profil(
+                            user: user,
+                          ),
+                        ].elementAt(_selectedIndex),
+                      ],
                     ),
-                  ],
-                  borderRadius: BorderRadius.circular(40),
+                  ),
                 ),
-                child: const Icon(Icons.qr_code_scanner_sharp)),
-          ),
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerDocked,
-          bottomNavigationBar: BottomAppBar(
-            shape: const CircularNotchedRectangle(),
-            clipBehavior: Clip.antiAlias,
-            child: BottomNavigationBar(
-              items: const <BottomNavigationBarItem>[
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.home),
-                  label: 'Home',
+                floatingActionButton: FloatingActionButton(
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: ((context) {
+                      return ScreenQrcode(
+                        typeScanner: 0,
+                        userInfo: userData,
+                      );
+                    })));
+                  },
+                  backgroundColor: Colors.transparent,
+                  child: Container(
+                      height: 60,
+                      width: 60,
+                      decoration: BoxDecoration(
+                        gradient: const LinearGradient(
+                          colors: [Color(0xff004f71), Color(0xffffc304)],
+                          begin: Alignment.bottomLeft,
+                          end: Alignment.topRight,
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color:
+                                ColorTheme.primaryColorYellow.withOpacity(0.2),
+                            spreadRadius: 2,
+                            blurRadius: 4,
+                            offset: const Offset(
+                                0, 1), // changes position of shadow
+                          ),
+                        ],
+                        borderRadius: BorderRadius.circular(40),
+                      ),
+                      child: const Icon(Icons.qr_code_scanner_sharp)),
                 ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.person_outline_rounded),
-                  label: 'Profil',
+                floatingActionButtonLocation:
+                    FloatingActionButtonLocation.centerDocked,
+                bottomNavigationBar: BottomAppBar(
+                  shape: const CircularNotchedRectangle(),
+                  clipBehavior: Clip.antiAlias,
+                  child: BottomNavigationBar(
+                    items: const <BottomNavigationBarItem>[
+                      BottomNavigationBarItem(
+                        icon: Icon(Icons.home),
+                        label: 'Home',
+                      ),
+                      BottomNavigationBarItem(
+                        icon: Icon(Icons.person_outline_rounded),
+                        label: 'Profil',
+                      ),
+                    ],
+                    currentIndex: _selectedIndex,
+                    selectedItemColor: ColorTheme.primaryColorYellow,
+                    backgroundColor: ColorTheme.primaryColorBlue,
+                    unselectedItemColor: ColorTheme.primaryColorWhite,
+                    onTap: _onItemTapped,
+                  ),
                 ),
-              ],
-              currentIndex: _selectedIndex,
-              selectedItemColor: ColorTheme.primaryColorYellow,
-              backgroundColor: ColorTheme.primaryColorBlue,
-              unselectedItemColor: ColorTheme.primaryColorWhite,
-              onTap: _onItemTapped,
-            ),
-          ),
-        );
-      },
-    );
-
-    // FutureBuilder(
-    //     future: loadingUser(),
-    //     builder: ((context, snapshot) {
-    //       userData = snapshot.data;
-
-    //       print("Information  ${userData}");
-
-    //       if (userData == null) {
-    //         return Container(
-    //           color: ColorTheme.primaryColorBlue,
-    //           child: Center(
-    //             child: LoadingAnimationWidget.staggeredDotsWave(
-    //               color: ColorTheme.primaryColorYellow,
-    //               size: 200,
-    //             ),
-    //           ),
-    //         );
-    //       }
-
-    //       if (userData == false) {
-    //         return Login();
-    //       }
-
-    //       return
-
-    //     }
-    //   ))
-
-    ;
+              );
+            }));
   }
 
   getCODEQR(BuildContext context, Size size, String dataQR) {

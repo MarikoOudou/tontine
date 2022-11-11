@@ -40,16 +40,16 @@ class _AddTontineState extends State<AddTontine> {
   bool loading = false;
 
   loadingUser() async {
-    Map<String, dynamic> userget = await user.getUser();
+    ModelReponse userget = await user.getUser();
     print("user info  ${userget}");
 
-    if (userget["reponse"]) {
+    if (userget.reponse) {
       user = User.fromJsonMap({
-        "id": userget["data"]["id"],
-        "nom": userget["data"]["nom"],
-        "prenom": userget["data"]["prenom"],
-        "tel": userget["data"]["tel"],
-        "solde": userget["data"]["solde"]
+        "id": userget.data["id"],
+        "nom": userget.data["nom"],
+        "prenom": userget.data["prenom"],
+        "tel": userget.data["tel"],
+        "solde": userget.data["solde"]
       });
       return user;
 

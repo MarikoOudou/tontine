@@ -8,6 +8,15 @@ class AppInitial extends AppState {}
 
 class AppLoading extends AppState {}
 
+class AppDeconnexion extends AppState {}
+
+class AppSubscriptSse extends AppState {
+  dynamic dataEvent;
+  AppSubscriptSse({
+    required this.dataEvent,
+  });
+}
+
 class AppError extends AppState {}
 
 class AppDepot extends AppState {
